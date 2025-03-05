@@ -34,21 +34,31 @@
 
 /* PRODUCT */
 .product-items{
+    max-width: 150px;
     border: 1px solid #ddd; 
     margin: 10px;
     max-width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 280px;
+}
+.product-items .inner-info{
+    text-align: center;
 }
 .product-items .inner-image{
     width: 100%;
     height: auto;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
 }
 .product-items .inner-image img{
-    width: 20%;
-    height: auto;
+    width: 100%;
 }
+
 .name{
     text-decoration: none;
     cursor: pointer;
-    color: red;
-    font-weight: 600;
+    color: black;
+    font-style: italic;
+    font-weight: 800;
 }
