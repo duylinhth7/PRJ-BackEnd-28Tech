@@ -1,0 +1,26 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main
+    h1 Trang chi tiết sản phẩm
+    div(class="container")
+        if(product.title)
+            div(class="mb-4") Tiêu đề: 
+                b #{product.title}
+        if(product.description)
+            div(class="mb-4") Mô tả: 
+                p #{product.description}
+        if(product.discountPercentage)
+            div(class="mb-4") Giảm giá : 
+                b #{product.discountPercentage}
+        if(product.stock)
+            div(class="mb-4") Số lượng : 
+                b #{product.stock}
+        if(product.thumbnail)
+            div(class="mb-4") Ảnh sản phẩm:  
+                img(
+                    src=product.thumbnail
+                    style="width:100px"
+                )
+        if(product.position)
+            div(class="mb-4") Vị trí: 
+                b #{product.position}

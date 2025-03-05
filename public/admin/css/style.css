@@ -1,0 +1,76 @@
+.header {
+    background-color: rgb(43, 39, 39);
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.header .inner-logo a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.body {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 60px; /* Đẩy nội dung xuống dưới header */
+}
+
+.body .sider {
+    width: 200px; /* Điều chỉnh độ rộng */
+    height: calc(100vh - 60px); /* Trừ đi chiều cao của header */
+    position: fixed;
+    top: 60px; /* Để tránh bị header che */
+    left: 0;
+    background-color: rgb(71, 68, 68);
+    color: #fff;
+    padding-top: 10px;
+}
+
+.body .main {
+    margin-left: 200px; /* Để tránh bị sider che */
+    padding: 15px;
+    flex: 1; /* Cho phép nội dung mở rộng */
+}
+
+.menu {
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    border-bottom: 1px solid #ddd;
+    list-style: none;
+    padding: 10px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+}
+.preview-image{
+    padding: 20px;
+    width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+}
+.preview-image[src=""]{
+    display: none;
+}
+.close-preview{
+    display: none;
+    border: 1px solid #ddd;
+    max-width: 20px;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.preview-image:not([src=""]) + .close-preview {
+    display: block;
+}

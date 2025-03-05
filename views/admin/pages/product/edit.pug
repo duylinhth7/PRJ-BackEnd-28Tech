@@ -1,0 +1,130 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1(class="mb-4") Chỉnh sửa sản phẩm
+
+    form(
+        action=`${prefixAdmin}/product/edit/${product.id}?_method=PATCH`
+        id="form-edit-product"
+        method='POST'
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                value=product.title
+                required
+            )
+
+        div(class="form-group")
+            label(for="description") Mô tả  
+            textarea(
+                type="text"
+                class="form-control"
+                id="description"
+                name="description"
+            ) #{product.description}
+
+        div(class="form-group")
+            label(for="thumbnail") Đường dẫn ảnh
+            input(
+                type="file"
+                class="form-control"
+                id="thumbnail"
+                name="thumbnail"
+                accept="image/*"
+                inputImage
+            )
+            img(
+                src=product.thumbnail
+                previewImage
+                class="preview-image"
+            )
+            div(
+                class="close-preview"
+            ) x
+
+        div(class="form-group")
+            label(for="price") Giá
+            input(
+                type="number"
+                class="form-control"
+                id="price"
+                name="price"
+                value=product.price
+                min=0
+                required 
+            ) 
+
+        div(class="form-group")
+            label(for="discountPercentage") % giảm giá
+            input(
+                type="number"
+                class="form-control"
+                id="discountPercentage"
+                name="discountPercentage"
+                value=product.discountPercentage
+                min=0
+            )                
+
+        div(class="form-group")
+            label(for="discountPercentage") Số lượng
+            input(
+                type="number"
+                class="form-control"
+                id="stock"
+                name="stock"
+                value=product.stock
+                min=0
+            ) 
+
+        div(class="form-group")
+            label(for="discountPercentage") Vị trí
+            input(
+                type="number"
+                class="form-control"
+                id="position"
+                name="position"
+                placeholder="Tăng dần"
+                min=1
+                value=product.position
+                requiered
+            )  
+        
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked = product.status == "active"
+            )
+            label(
+                for="statusActive"
+                class="form-check-label"
+            ) Hoạt động
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="inactive"
+                checked= product.status == "inactive"
+            )
+            label(
+                for="statusActive"
+                class="form-check-label"
+            ) Dừng hoạt động
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Cập nhật
+            
+            
