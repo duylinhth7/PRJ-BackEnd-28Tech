@@ -1,5 +1,4 @@
 const express = require("express")
-require("./bin/www");
 var methodOverride = require('method-override')
 var bodyParser = require('body-parser')
 const database = require("./config/database");
