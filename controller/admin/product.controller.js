@@ -5,6 +5,7 @@ const panigationHelper = require("../../helpers/panigation");
 const systemConfig = require("../../config/system");
 
 
+
 // [GET] admin/product
 module.exports.product = async (req, res) => {
 
@@ -139,9 +140,6 @@ module.exports.createPost = async (req, res) => {
     req.body.position = position + 1;
     req.body.stock = parseInt(req.body.stock);
     req.body.deleted = false;
-    if (req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
     const newProduct = new Product(req.body);
     await newProduct.save();
     res.redirect(`${systemConfig.prefixAdmin}/product`);
