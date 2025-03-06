@@ -13,9 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 
 const port = process.env.PORT;
-app.set('views', './views');
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
-app.use(express.static('public'))
+app.use(express.static(`${__dirname}/public`))
 
 
 
@@ -24,10 +24,9 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 // Routes
 routeAdmin(app);
-route(app)
-
+route(app);
 //ok
-
+    
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
