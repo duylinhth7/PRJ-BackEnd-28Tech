@@ -37,22 +37,18 @@ module.exports.product = async (req, res) => {
         },
         req.query,
         countProducts
-    )
+    );
 
-    // const objectPanigation = {
-    //     currentPage: 1,
-    //     limitItems: 4,
-    // }
-    // if(req.query.page){
-    //     objectPanigation.currentPage = parseInt(req.query.page);
-    // };
-    // objectPanigation.skipItems = (parseInt(req.query.page) -1) * (objectPanigation.limitItems);
+    const sort = {
 
-    // objectPanigation.totalPages = Math.ceil(countProducts/objectPanigation.limitItems);
-    // console.log(objectPanigation.toltalPages)
+    };
 
-    //end
-    const products = await Product.find(find).limit(objectPanigation.limitItems).skip(objectPanigation.skipItems).sort({ position: 'desc' });
+    if(req.query.sortKey &&  req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue;
+    } else {
+        sort['position'] = 'desc';
+    }
+    const products = await Product.find(find).limit(objectPanigation.limitItems).skip(objectPanigation.skipItems).sort(sort);
     res.render("admin/pages/product/index", {
         title: "Trang sản phẩm",
         products: products,
@@ -134,15 +130,20 @@ module.exports.create = (req, res) => {
 //[POST] admin/products/create
 
 module.exports.createPost = async (req, res) => {
-    req.body.price = parseInt(req.body.price);
-    req.body.discountPercentage = parseInt(req.body.discountPercentage);
-    const position = await Product.countDocuments({});
-    req.body.position = position + 1;
-    req.body.stock = parseInt(req.body.stock);
-    req.body.deleted = false;
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.redirect(`${systemConfig.prefixAdmin}/product`);
+    try {
+        req.body.price = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        const position = await Product.countDocuments({});
+        req.body.position = position + 1;
+        req.body.stock = parseInt(req.body.stock);
+        req.body.deleted = false;
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        res.redirect(`${systemConfig.prefixAdmin}/product`);
+
+    } catch (error) {
+        res.redirect("back");
+    }
 
 };
 

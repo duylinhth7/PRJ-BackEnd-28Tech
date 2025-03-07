@@ -121,16 +121,57 @@ if (formChangeMutil) {
 const inputImage = document.querySelector("[inputImage]");
 const previewImage = document.querySelector("[previewImage]");
 
-inputImage.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if(file){
-        previewImage.src = URL.createObjectURL(file);
-    }
-})
+if(inputImage){
+    inputImage.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            previewImage.src = fileReader.result;
+        }
+        fileReader.readAsDataURL(file);
+    })
+}
 
 const closePreview = document.querySelector(".close-preview")
-closePreview.addEventListener("click", () => {
-    inputImage.value = "";
-    previewImage.src = "";
-})
+if(closePreview){
+    closePreview.addEventListener("click", () => {
+        inputImage.value = "";
+        previewImage.src = "";
+    })
+}
 //end
+
+//Sort product
+
+const sort = document.querySelector("#sort");
+if(sort){
+    const sortSlect = sort.querySelector("[sort-select]");
+    sortSlect.addEventListener("change", (e) => {
+        const value = (e.target.value).split("-");
+        const [sortKey, sortValue] = value;
+        const url = new URL(window.location.href);
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+        window.location.href = url.href;
+    })
+
+    const deleteSort = sort.querySelector("[delete-sort]");
+    deleteSort.addEventListener("click", () => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url.href;
+    })
+
+    //Thêm selected
+    const url = new URL(window.location.href);
+    const sortKey = url.searchParams.get("sortKey");
+    const sortValue = url.searchParams.get("sortValue");
+    if(sortKey && sortValue){
+        sortString = `${sortKey}-${sortValue}`
+        const sortSelected = sort.querySelector(`option[value='${sortString}']`);
+        sortSelected.setAttribute("selected", true);
+    }
+}
+
+//End sort product
