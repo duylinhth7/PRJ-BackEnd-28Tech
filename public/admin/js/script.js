@@ -139,7 +139,7 @@ if(closePreview){
         previewImage.src = "";
     })
 }
-//end
+//end Preview Image
 
 //Sort product
 
