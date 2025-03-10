@@ -174,9 +174,6 @@ module.exports.editPatch = async (req, res) => {
         req.body.position = position + 1;
         req.body.stock = parseInt(req.body.stock);
         req.body.deleted = false;
-        if (req.file) {
-            req.body.thumbnail = `/uploads/${req.file.filename}`;
-        }
         const product = req.body;
         const id = req.params.id;
         await Product.updateOne({ _id: id }, product);

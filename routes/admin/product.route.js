@@ -1,8 +1,6 @@
 const express = require('express');
 const multer = require('multer')
 
-const storageMulter = require('../../helpers/storageMulter');
-const upload = multer({ storage: storageMulter });
 const fileUpload = multer();
 const router = express.Router();
 const uploadCloud = require("../../middlewares/uploadCloud.middware");
@@ -22,7 +20,8 @@ router.post("/create",
     controller.createPost);
 router.get("/edit/:id", controller.edit);
 router.patch("/edit/:id",
-    upload.single('thumbnail'),
+    fileUpload.single('thumbnail'),
+    uploadCloud.upload,
     validate.createPost,
     controller.editPatch);
 router.get("/detail/:id", controller.detail);
