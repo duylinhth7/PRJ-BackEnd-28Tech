@@ -128,13 +128,16 @@ module.exports.create = (req, res) => {
 };
 
 //[POST] admin/products/create
-
 module.exports.createPost = async (req, res) => {
     try {
         req.body.price = parseInt(req.body.price);
         req.body.discountPercentage = parseInt(req.body.discountPercentage);
-        const position = await Product.countDocuments({});
-        req.body.position = position + 1;
+        if(req.body.position != ""){
+            req.body.position = parseInt(req.body.position);
+        } else{
+            const position = await Product.countDocuments({});
+            req.body.position = position + 1;
+        }
         req.body.stock = parseInt(req.body.stock);
         req.body.deleted = false;
         const newProduct = new Product(req.body);
