@@ -7,7 +7,7 @@ block main
             b #{product.title}
     if(product.description)
         div(class="mb-4") Mô tả: 
-            p #{product.description}
+            p !{product.description}
     if(product.discountPercentage)
         div(class="mb-4") Giảm giá : 
             b #{product.discountPercentage}
