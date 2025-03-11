@@ -13,6 +13,9 @@ router.get("/", controller.index);
 
 router.get("/create", controller.create);
 
+router.patch("/change-status/:status/:id", controller.changeStatusCategory);
+router.delete("/delete/:id", controller.deleteItem);
+
 router.post("/create",
     fileUpload.single('thumbnail'),
     uploadCloud.upload,
