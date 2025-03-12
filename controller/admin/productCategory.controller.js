@@ -40,9 +40,9 @@ module.exports.index = async (req, res) => {
     };
 
     const sort = {
-        
+
     };
-    if(req.query.sortKey && req.query.sortValue){
+    if (req.query.sortKey && req.query.sortValue) {
         sortKey = req.query.sortKey;
         sortValue = req.query.sortValue;
         sort[sortKey] = sortValue;
@@ -143,7 +143,7 @@ module.exports.changeMutil = async (req, res) => {
                 { _id: { $in: id } },
                 { status: "active" }
             );
-            break;  
+            break;
         case "inactive":
             await productCategory.updateMany(
                 { _id: { $in: id } },
@@ -169,5 +169,60 @@ module.exports.changeMutil = async (req, res) => {
             break;
     }
     res.redirect("back");
+}
+
+// END
+
+//[GET] admin/product-category/edit/:id
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+    const data = await productCategory.findOne({
+        _id: id,
+        deleted: false
+    });
+
+    const record = await productCategory.find({
+        deleted: false
+    })
+
+    //đệ quy 
+    function createTree(arr, parentId = " ") {
+        let tree = [];
+        arr.forEach((item) => {
+            if (item.parent_id === parentId) {
+                const newItem = item;
+                const children = createTree(arr, item.id);
+                if (children.length > 0) {
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    };
+
+    const newRecord = createTree(record);
+
+    res.render("admin/pages/product-category/edit.pug",
+        {
+            data: data,
+            record: newRecord
+        }
+    )
+
+}
+
+//end
+
+module.exports.editPatch = async (req, res) => {
+    try {
+        req.body.position = parseInt(req.body.position)
+        const id = req.params.id;
+        await productCategory.updateOne({ _id: id }, req.body)
+        res.redirect(`${systemConfig.prefixAdmin}/product-category`);
+    } catch (error) {
+        res.redirect("back")
+
+    }
 }
 
