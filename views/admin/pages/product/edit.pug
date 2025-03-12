@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/select-tree.pug
 
 block main 
     h1(class="mb-4") Chỉnh sửa sản phẩm
@@ -19,7 +20,12 @@ block main
                 value=product.title
                 required
             )
-
+        div(class="form-group")
+            label(for="product_category_id") Chọn danh mục sản phẩm
+            select(name="product_category_id" class="form-control" id="product_category_id")
+                option(value=" ") --Chọn danh mục sản phẩm--
+                if(record)
+                    +select-tree(record, 1, product.product_category_id)
         div(class="form-group")
             label(for="description") Mô tả  
             textarea(

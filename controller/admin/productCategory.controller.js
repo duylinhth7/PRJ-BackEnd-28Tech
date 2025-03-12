@@ -2,6 +2,8 @@ const productCategory = require("../../models/product-category.model");
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
+const createTreeHelper = require("../../helpers/createTree");
+
 
 module.exports.index = async (req, res) => {
     let find = {
@@ -67,24 +69,9 @@ module.exports.create = async (req, res) => {
     let find = {
         deleted: false
     };
-    //đệ quy 
-    function createTree(arr, parentId = " ") {
-        let tree = [];
-        arr.forEach((item) => {
-            if (item.parent_id === parentId) {
-                const newItem = item;
-                const children = createTree(arr, item.id);
-                if (children.length > 0) {
-                    newItem.children = children;
-                }
-                tree.push(newItem);
-            }
-        });
-        return tree;
-    }
 
     const records = await productCategory.find(find);
-    const newRecords = createTree(records);
+    const newRecords = createTreeHelper(records);
 
     res.render("admin/pages/product-category/create", {
         title: "Trang tạo mới danh mục sản phẩm",
@@ -185,23 +172,8 @@ module.exports.edit = async (req, res) => {
         deleted: false
     })
 
-    //đệ quy 
-    function createTree(arr, parentId = " ") {
-        let tree = [];
-        arr.forEach((item) => {
-            if (item.parent_id === parentId) {
-                const newItem = item;
-                const children = createTree(arr, item.id);
-                if (children.length > 0) {
-                    newItem.children = children;
-                }
-                tree.push(newItem);
-            }
-        });
-        return tree;
-    };
 
-    const newRecord = createTree(record);
+    const newRecord = createTreeHelper(record);
 
     res.render("admin/pages/product-category/edit.pug",
         {
@@ -214,10 +186,11 @@ module.exports.edit = async (req, res) => {
 
 //end
 
+//[PATCH] admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
         req.body.position = parseInt(req.body.position)
-        const id = req.params.id;
+        const id = req.params.id;   
         await productCategory.updateOne({ _id: id }, req.body)
         res.redirect(`${systemConfig.prefixAdmin}/product-category`);
     } catch (error) {
@@ -226,3 +199,4 @@ module.exports.editPatch = async (req, res) => {
     }
 }
 
+//END

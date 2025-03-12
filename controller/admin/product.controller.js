@@ -1,8 +1,10 @@
 const Product = require("../../models/product.model");
+const productCategory = require("../../models/product-category.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const panigationHelper = require("../../helpers/panigation");
 const systemConfig = require("../../config/system");
+const createTreeHelper = require("../../helpers/createTree");
 
 
 
@@ -43,7 +45,7 @@ module.exports.product = async (req, res) => {
 
     };
 
-    if(req.query.sortKey &&  req.query.sortValue){
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue;
     } else {
         sort['position'] = 'desc';
@@ -121,10 +123,13 @@ module.exports.deleteItem = async (req, res) => {
 };
 
 //Thêm mới sản phẩm
-//[GET] admin.product/crate
-module.exports.create = (req, res) => {
-    console.log(req.params)
-    res.render("admin/pages/product/create");
+//[GET] admin.product/create
+module.exports.create = async (req, res) => {
+    const record = await productCategory.find({deleted: false});
+    const newRecord = createTreeHelper(record);
+    res.render("admin/pages/product/create", {
+        record: newRecord
+    });
 };
 
 //[POST] admin/products/create
@@ -132,9 +137,9 @@ module.exports.createPost = async (req, res) => {
     try {
         req.body.price = parseInt(req.body.price);
         req.body.discountPercentage = parseInt(req.body.discountPercentage);
-        if(req.body.position != ""){
+        if (req.body.position != "") {
             req.body.position = parseInt(req.body.position);
-        } else{
+        } else {
             const position = await Product.countDocuments({});
             req.body.position = position + 1;
         }
@@ -150,17 +155,20 @@ module.exports.createPost = async (req, res) => {
 
 };
 
-//[GET] admin/product/edit/id
+//[GET] admin/product/edit/:id
 module.exports.edit = async (req, res) => {
     try {
         const find = {
             deleted: false,
             _id: req.params.id
         };
+        const record = await productCategory.find({deleted:false})
+        const newRecord = createTreeHelper(record);
         const product = await Product.findOne(find);
         res.render("admin/pages/product/edit",
             {
-                product: product
+                product: product,
+                record: newRecord
             }
         )
     } catch (error) {
