@@ -15,6 +15,7 @@ router.get("/create", controller.create);
 
 router.patch("/change-status/:status/:id", controller.changeStatusCategory);
 router.delete("/delete/:id", controller.deleteItem);
+router.patch("/change-mutil", controller.changeMutil)
 
 router.post("/create",
     fileUpload.single('thumbnail'),

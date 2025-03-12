@@ -37,9 +37,20 @@ module.exports.index = async (req, res) => {
             }
         });
         return tree;
+    };
+
+    const sort = {
+        
+    };
+    if(req.query.sortKey && req.query.sortValue){
+        sortKey = req.query.sortKey;
+        sortValue = req.query.sortValue;
+        sort[sortKey] = sortValue;
+    } else {
+        sort["position"] = "desc";
     }
 
-    const records = await productCategory.find(find);
+    const records = await productCategory.find(find).sort(sort);
     const newRecords = createTree(records);
 
     res.render("admin/pages/product-category/index", {
@@ -119,3 +130,44 @@ module.exports.deleteItem = async (req, res) => {
     })
     res.redirect("back");
 }
+
+//end
+
+// [PATCH] admin/products/change-mutil
+module.exports.changeMutil = async (req, res) => {
+    const id = req.body.ids.split(", ");
+    const type = req.body.type;
+    switch (type) {
+        case 'active':
+            await productCategory.updateMany(
+                { _id: { $in: id } },
+                { status: "active" }
+            );
+            break;  
+        case "inactive":
+            await productCategory.updateMany(
+                { _id: { $in: id } },
+                { status: "inactive" }
+            );
+            break;
+        case "delete":
+            await productCategory.updateMany(
+                { _id: { $in: id } },
+                {
+                    deleted: true,
+                    deletedAt: new Date()
+                }
+            );
+            break;
+        case "change-position":
+            for (const item of id) {
+                const [id, postion] = (item.split("-"));
+                await productCategory.updateOne({ _id: id }, { position: postion });
+            };
+            break;
+        default:
+            break;
+    }
+    res.redirect("back");
+}
+
