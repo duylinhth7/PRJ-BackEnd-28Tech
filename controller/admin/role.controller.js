@@ -34,7 +34,7 @@ module.exports.createPost = async (req, res) => {
 //[DELETE] admin/role/delete/:id
 module.exports.delete = async (req, res) => {
     const id = req.params.id;
-    await roleModel.updateOne({ _id: id, deleted: true })
+    await roleModel.updateOne({ _id: id }, { deleted: true })
     res.redirect("back")
 }
 //END
@@ -59,5 +59,33 @@ module.exports.editPatch = async (req, res) => {
 
     } catch (error) {
         res.redirect("back");
+    }
+}
+//END
+
+//[GET] admin/role/permissions
+module.exports.permissions = async (req, res) => {
+    let find = {
+        deleted: false
+    }
+    const record = await roleModel.find(find)
+    res.render("admin/pages/role/permissions", {
+        title: "Trang phân quyền",
+        record: record
+    })
+}
+
+//END
+
+//[PATCH] admin/role/permissions
+module.exports.editPermissions = async (req, res) => {
+    try {
+        const record = JSON.parse(req.body.permissions);
+        for (const item of record) {
+            await roleModel.updateOne({ _id: item.id }, { permissions: item.permissions })
+        }
+        res.redirect("back")
+    } catch (error) {
+        res.redirect("back")    
     }
 }
