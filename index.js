@@ -1,5 +1,6 @@
 const express = require("express")
 var path = require('path'); 
+const cookieParser = require('cookie-parser');
 var methodOverride = require('method-override')
 var bodyParser = require('body-parser')
 const database = require("./config/database");
@@ -17,6 +18,7 @@ const port = process.env.PORT;
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 app.use(express.static(`${__dirname}/public`))
+app.use(cookieParser()); // Thêm middleware này trước khi dùng req.cookies
 
 // TinyMCE
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
