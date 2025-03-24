@@ -56,7 +56,13 @@ module.exports.product = async (req, res) => {
         if(user){
             item.accountFullName = user.fullName;
         }
-    }
+        const update = item.updatedBy[item.updatedBy.length - 1];
+        if(update){
+            const updated_id = update.account_id;
+            const user = await Accounts.findOne({_id: updated_id});
+            update.accountFullName = user.fullName
+        }
+    };
     res.render("admin/pages/product/index", {
         title: "Trang sản phẩm",
         products: products,
@@ -71,7 +77,13 @@ module.exports.changeStatus = async (req, res) => {
     // console.log(req.params)
     const id = req.params.id
     const status = req.params.status
-    await Product.updateOne({ _id: id }, { status: status })
+    const updated = {
+        account_id: res.locals.user.id,
+        updatedAt:  new Date
+    };
+    await Product.updateOne({ _id: id }, { status: status , 
+        $push: {updatedBy: updated}
+    })
     res.redirect("back")
 }
 
@@ -79,17 +91,21 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMutil = async (req, res) => {
     const id = req.body.ids.split(", ");
     const type = req.body.type;
+    const updated = {
+        account_id: res.locals.user.id,
+        updatedAt:  new Date
+    };
     switch (type) {
         case 'active':
             await Product.updateMany(
                 { _id: { $in: id } },
-                { status: "active" }
+                { status: "active" , $push: {updatedBy: updated}}
             );
             break;
         case "inactive":
             await Product.updateMany(
                 { _id: { $in: id } },
-                { status: "inactive" }
+                { status: "inactive", $push: {updatedBy: updated} }
             );
             break;
         case "delete":
@@ -97,14 +113,15 @@ module.exports.changeMutil = async (req, res) => {
                 { _id: { $in: id } },
                 {
                     deleted: true,
-                    deletedAt: new Date()
+                    deletedAt: new Date(),
+                    $push: {updatedBy: updated}
                 }
             );
             break;
         case "change-position":
             for (const item of id) {
                 const [id, postion] = (item.split("-"));
-                await Product.updateOne({ _id: id }, { position: postion });
+                await Product.updateOne({ _id: id }, { position: postion , $push: {updatedBy: updated}});
             };
             break;
         default:
@@ -122,7 +139,8 @@ module.exports.deleteItem = async (req, res) => {
     await Product.updateOne({ _id: id },
         {
             deleted: true,
-            deletedAt: new Date()
+            deletedAt: new Date(),
+            $push: {updatedBy: updated}
         },
     );
     res.redirect("back");
@@ -185,7 +203,7 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-// [PATCH] admin/product/edit/id
+// [PATCH] admin/product/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
         req.body.price = parseInt(req.body.price);
@@ -196,7 +214,14 @@ module.exports.editPatch = async (req, res) => {
         req.body.deleted = false;
         const product = req.body;
         const id = req.params.id;
-        await Product.updateOne({ _id: id }, product);
+        const updated = {
+            account_id: res.locals.user.id,
+            updatedAt:  new Date
+        };  
+        await Product.updateOne({ _id: id }, {
+            ...product,
+            $push: {updatedBy: updated}
+        });
         res.redirect(`${systemConfig.prefixAdmin}/product`);
     } catch (error) {
         res.redirect("back");

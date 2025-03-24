@@ -4,6 +4,7 @@ include  ../../mixins/search.pug
 include  ../../mixins/panigation.pug
 include  ../../mixins/form-change-mutil.pug
 include  ../../mixins/sort.pug
+include ../../mixins/format-date.pug
 
 block main
     h1 Trang sản phẩm
@@ -65,6 +66,7 @@ block main
                         th Vị trí
                         th Trạng thái 
                         th Người tạo
+                        th Người chỉnh sửa gần nhất
                         th Hành động
                 tbody
                     each item, index in products
@@ -121,7 +123,11 @@ block main
                                         ) Ngưng hoạn động
                             td 
                                 p #{item.accountFullName}
-                                p #{moment(item.createdBy.createdAt).format("DD/MM/YYYY, h:mm:ss a")}
+                                +formatDate(item.createdBy.createdAt)
+                            td 
+                                - const updatedName = item.updatedBy[item.updatedBy.length - 1]
+                                if(updatedName)
+                                    p #{updatedName.accountFullName}
                             td
                                 if(role.permissions.includes("product_view"))
                                     a(
