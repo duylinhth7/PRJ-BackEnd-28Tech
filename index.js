@@ -9,7 +9,8 @@ console.log("PORT from env:", process.env.PORT);
 const routeAdmin = require("./routes/admin/index.rote");
 const route = require("./routes/client/index.route");
 database.connect();
-const app = express()
+const app = express();
+const moment = require("moment");
 const systemConfig = require("./config/system");
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
@@ -25,6 +26,9 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 // end
 
+// momment
+app.locals.moment = moment;
+//end
 // App locals variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 

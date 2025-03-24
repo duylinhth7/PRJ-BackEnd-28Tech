@@ -8,6 +8,7 @@ block main
         .card-body 
             .row 
                 .col-3 
+                if(role.permissions.includes("role_edit"))
                     a(  href=`${prefixAdmin}/role/create`
                         class="btn btn-outline-success"
                     ) + Thêm mới
@@ -41,16 +42,19 @@ block main
                                 td #{item.title}
                                 td !{item.description}
                                 td 
-                                    a(class="btn btn-sm btn-secondary",
-                                        href=`${prefixAdmin}/role/detail/${item.id}`
-                                    ) Chi tiết 
-                                    a(class="btn btn-sm btn-warning",
-                                        href=`${prefixAdmin}/role/edit/${item.id}`
-                                    ) Sửa 
-                                    a(class="btn btn-sm btn-danger",
-                                        button-delete 
-                                        data-id = item.id
-                                    ) Xóa
+                                    if(role.permissions.includes("role_view"))
+                                        a(class="btn btn-sm btn-secondary",
+                                            href=`${prefixAdmin}/role/detail/${item.id}`
+                                        ) Chi tiết 
+                                    if(role.permissions.includes("role_edit"))
+                                        a(class="btn btn-sm btn-warning",
+                                            href=`${prefixAdmin}/role/edit/${item.id}`
+                                        ) Sửa 
+                                    if(role.permissions.includes("role_delete"))
+                                        a(class="btn btn-sm btn-danger",
+                                            button-delete 
+                                            data-id = item.id
+                                        ) Xóa
                     else 
                         th Không có bản ghi nào
                                 

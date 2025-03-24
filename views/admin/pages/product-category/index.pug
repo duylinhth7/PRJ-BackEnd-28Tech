@@ -25,23 +25,25 @@ block main
                 .col-4
                     +sort-category()
         .card.mb-3 
-        .card-header T thái 
-        .card-body hay đổi trạng
+        .card-header Trạng thái 
+        .card-body Thay đổi trạng thái
             .row 
                 .col-8
-                    +formChangeMutil(`${prefixAdmin}/product-category/change-mutil?_method=PATCH`)
-                            .form-group 
-                                input(
-                                    type="text"
-                                    name="ids"
-                                    value=""
-                                    class="form-control"
-                                )
-                            button(type='submit' class="btn btn-primary") Áp dụng
+                    if(role.permissions.includes("product-category_edit"))
+                        +formChangeMutil(`${prefixAdmin}/product-category/change-mutil?_method=PATCH`)
+                                .form-group 
+                                    input(
+                                        type="text"
+                                        name="ids"
+                                        value=""
+                                        class="form-control"
+                                    )
+                                button(type='submit' class="btn btn-primary") Áp dụng
                 .col-3 
-                    a(  href=`${prefixAdmin}/product-category/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm sản phẩm mới
+                    if(role.permissions.includes("product-category_edit"))
+                        a(  href=`${prefixAdmin}/product-category/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm sản phẩm mới
 
       
 

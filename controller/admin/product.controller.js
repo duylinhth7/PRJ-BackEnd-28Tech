@@ -4,8 +4,8 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const panigationHelper = require("../../helpers/panigation");
 const systemConfig = require("../../config/system");
+const Accounts = require("../../models/accounts.model");
 const createTreeHelper = require("../../helpers/createTree");
-
 
 
 // [GET] admin/product
@@ -51,6 +51,12 @@ module.exports.product = async (req, res) => {
         sort['position'] = 'desc';
     }
     const products = await Product.find(find).limit(objectPanigation.limitItems).skip(objectPanigation.skipItems).sort(sort);
+    for (const item of products) {
+        const user = await Accounts.findOne({_id: item.createdBy.account_id})
+        if(user){
+            item.accountFullName = user.fullName;
+        }
+    }
     res.render("admin/pages/product/index", {
         title: "Trang sản phẩm",
         products: products,
@@ -145,6 +151,9 @@ module.exports.createPost = async (req, res) => {
         }
         req.body.stock = parseInt(req.body.stock);
         req.body.deleted = false;
+        req.body.createdBy = {
+            account_id: res.locals.user.id
+        }
         const newProduct = new Product(req.body);
         await newProduct.save();
         res.redirect(`${systemConfig.prefixAdmin}/product`);

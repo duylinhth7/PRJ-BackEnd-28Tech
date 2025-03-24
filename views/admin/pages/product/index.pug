@@ -31,19 +31,21 @@ block main
         .card-body 
             .row 
                 .col-8
-                    +formChangeMutil(`${prefixAdmin}/product/change-mutil?_method=PATCH`)
-                            .form-group 
-                                input(
-                                    type="text"
-                                    name="ids"
-                                    value=""
-                                    class="form-control"
-                                )
-                            button(type='submit' class="btn btn-primary") Áp dụng
+                    if(role.permissions.includes("product_edit"))
+                        +formChangeMutil(`${prefixAdmin}/product/change-mutil?_method=PATCH`)
+                                .form-group 
+                                    input(
+                                        type="text"
+                                        name="ids"
+                                        value=""
+                                        class="form-control"
+                                    )
+                                button(type='submit' class="btn btn-primary") Áp dụng
                 .col-3 
-                    a(  href=`${prefixAdmin}/product/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm sản phẩm mới
+                    if(role.permissions.includes("product_edit"))
+                        a(  href=`${prefixAdmin}/product/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm sản phẩm mới
 
       
 
@@ -62,6 +64,7 @@ block main
                         th Giá
                         th Vị trí
                         th Trạng thái 
+                        th Người tạo
                         th Hành động
                 tbody
                     each item, index in products
@@ -87,35 +90,54 @@ block main
                                     name="input-position"
                                 )
                             td
-                                if(item.status == "active")
-                                    button(
-                                        type="button"
-                                        class="badge bg-success"
-                                        data-status = item.status 
-                                        data-id = item.id
-                                        button-change-status
-                                    ) Hoạt động
-                                else
-                                     button(
-                                        type="button"
-                                        class="badge bg-danger"
-                                        data-status = item.status 
-                                        data-id = item.id
-                                        button-change-status
-                                    ) Ngưng hoạn động
+                                if(role.permissions.includes("product_edit"))
+                                    if(item.status == "active")
+                                        button(
+                                            type="button"
+                                            class="badge bg-success"
+                                            data-status = item.status 
+                                            data-id = item.id
+                                            button-change-status
+                                        ) Hoạt động
+                                    else
+                                        button(
+                                            type="button"
+                                            class="badge bg-danger"
+                                            data-status = item.status 
+                                            data-id = item.id
+                                            button-change-status
+                                        ) Ngưng hoạn động
+                                else 
+                                    if(item.status == "active")
+                                        button(
+                                            readOnly
+                                            type="button"
+                                            class="badge bg-success"
+                                        ) Hoạt động
+                                    else
+                                        button(
+                                            type="button"
+                                            class="badge bg-danger"
+                                        ) Ngưng hoạn động
+                            td 
+                                p #{item.accountFullName}
+                                p #{moment(item.createdBy.createdAt).format("DD/MM/YYYY, h:mm:ss a")}
                             td
-                                a(
-                                    class="btn btn-info"
-                                    href=`${prefixAdmin}/product/detail/${item.id}`
-                                ) Chi tiết
-                                a(
-                                    class="btn btn-warning btn-sm"
-                                    href=`${prefixAdmin}/product/edit/${item.id}`
-                                ) Sửa
-                                button(class="btn btn-danger btn-sm ml-1"
-                                        button-delete 
-                                        data-id = item.id
-                                        ) Xóa
+                                if(role.permissions.includes("product_view"))
+                                    a(
+                                        class="btn btn-info"
+                                        href=`${prefixAdmin}/product/detail/${item.id}`
+                                    ) Chi tiết
+                                if(role.permissions.includes("product_edit"))
+                                    a(
+                                        class="btn btn-warning btn-sm"
+                                        href=`${prefixAdmin}/product/edit/${item.id}`
+                                    ) Sửa
+                                if(role.permissions.includes("product_delete"))
+                                    button(class="btn btn-danger btn-sm ml-1"
+                                            button-delete 
+                                            data-id = item.id
+                                            ) Xóa
 
                             
     +panigation(panigation) 

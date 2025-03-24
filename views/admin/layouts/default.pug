@@ -8,9 +8,12 @@ html
     include ../partials/header.pug
     
     .body 
+      if(role.permissions.length > 0)
         include ../partials/sider.pug 
         .main
             block main
+      else 
+        h1 Bạn không có quyền xem
 
      
 

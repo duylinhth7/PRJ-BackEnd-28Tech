@@ -21,6 +21,7 @@ const accountsSchema = new mongoose.Schema({
     deletedAt: Date,
 
 }, { timestamps: true });
+
 const Accounts = mongoose.model("Accounts", accountsSchema, "accounts");
 
 module.exports = Accounts;
