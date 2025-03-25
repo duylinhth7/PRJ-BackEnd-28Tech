@@ -3,7 +3,7 @@ const multer = require('multer')
 
 
 const fileUpload = multer();
-const uploadCloud = require("../../middlewares/uploadCloud.middware");
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middware");
 const validate = require("../../validate/admin/product-category.validate");
 const controller = require("../../controller/admin/productCategory.controller")
 

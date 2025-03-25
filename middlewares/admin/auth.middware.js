@@ -1,6 +1,6 @@
-const systemConfig = require("../config/system");
-const Accounts = require("../models/accounts.model");
-const roleModel = require("../models/role.model")
+const systemConfig = require("../../config/system");
+const Accounts = require("../../models/accounts.model");
+const roleModel = require("../../models/role.model")
 module.exports.authRequire = async (req, res, next) => {
     if (!req.cookies.token) {
         res.redirect(`${systemConfig.prefixAdmin}/auth/login`)

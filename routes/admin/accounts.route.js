@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require('multer')
 
 const router = express.Router();
-const uploadCloud = require("../../middlewares/uploadCloud.middware");
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middware");
 const fileUpload = multer();
 const controller = require("../../controller/admin/accounts.controller.js");
 const validate = require("../../validate/admin/accounts.validate.js")
