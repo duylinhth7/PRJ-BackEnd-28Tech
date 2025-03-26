@@ -64,7 +64,7 @@ module.exports.index = async (req, res) => {
     })
 }
 
-//[GET] admin/product-category/creat
+//[GET] admin/product-category/create
 module.exports.create = async (req, res) => {
     let find = {
         deleted: false
@@ -82,6 +82,7 @@ module.exports.create = async (req, res) => {
 
 //[POST] admin/product-category/creat
 module.exports.createPost = async (req, res) => {
+    if (res.locals.role.permissions.includes("product-category_create")) {
 
     if (req.body.position != "") {
         req.body.position = parseInt(req.body.position);
@@ -93,17 +94,24 @@ module.exports.createPost = async (req, res) => {
     const record = new productCategory(req.body);
     await record.save();
     res.redirect(`${systemConfig.prefixAdmin}/product-category`);
+} else {
+    return res.send("403 !")
+}
 }
 // END
 
 
 // [PATCH] admin/products/change-status/:status/id
 module.exports.changeStatusCategory = async (req, res) => {
+    if (res.locals.role.permissions.includes("product-category_edit")) {
     // console.log(req.params)
     const id = req.params.id
     const status = req.params.status
     await productCategory.updateOne({ _id: id }, { status: status })
     res.redirect("back")
+    } else {
+        return res.send("403 !")
+    }
 }
 
 //end
@@ -111,17 +119,22 @@ module.exports.changeStatusCategory = async (req, res) => {
 //[DELETE]
 
 module.exports.deleteItem = async (req, res) => {
+    if (res.locals.role.permissions.includes("product-category_delete")) {
     const id = req.params.id;
     await productCategory.updateOne({ _id: id }, {
         deleted: true
     })
     res.redirect("back");
+} else  {
+    return res.send("403 !")
+}
 }
 
 //end
 
 // [PATCH] admin/products/change-mutil
 module.exports.changeMutil = async (req, res) => {
+    if (res.locals.role.permissions.includes("product-category_edit")) {
     const id = req.body.ids.split(", ");
     const type = req.body.type;
     switch (type) {
@@ -156,6 +169,9 @@ module.exports.changeMutil = async (req, res) => {
             break;
     }
     res.redirect("back");
+} else {
+    return res.send("403 !")
+}
 }
 
 // END
@@ -188,6 +204,7 @@ module.exports.edit = async (req, res) => {
 
 //[PATCH] admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
+    if (res.locals.role.permissions.includes("product-category_edit")) {
     try {
         req.body.position = parseInt(req.body.position)
         const id = req.params.id;   
@@ -197,6 +214,9 @@ module.exports.editPatch = async (req, res) => {
         res.redirect("back")
 
     }
+} else {
+    return res.send("403 !")
+}
 }
 
 //END

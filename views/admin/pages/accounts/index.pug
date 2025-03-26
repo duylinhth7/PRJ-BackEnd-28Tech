@@ -8,12 +8,10 @@ block main
         .card-body 
             .row 
                 .col-3 
-                    a(  href=`${prefixAdmin}/accounts/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
-
-      
-
+                    if(role.permissions.includes("accounts_add"))
+                        a(  href=`${prefixAdmin}/accounts/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm mới
         .card-body 
             .row
             table(class="table table-hover table-sm"
@@ -45,38 +43,53 @@ block main
                                     div()
                                         image(src=item.avatar
                                             alt=item.title
+                                            width="150px"
                                         )
                                 td #{item.fullName}
                                 td #{item.role.title}
                                 td #{item.email}
                                 td
-                                    if(item.status == "active")
-                                        button(
-                                            type="button"
-                                            class="badge bg-success"
-                                            data-status = item.status 
-                                            data-id = item.id
-                                            button-change-status
-                                        ) Hoạt động
-                                    else
-                                        button(
-                                            type="button"
-                                            class="badge bg-danger"
-                                            data-status = item.status 
-                                            data-id = item.id
-                                            button-change-status
-                                        ) Ngưng hoạn động
+                                    if(role.permissions.includes("role_edit"))
+                                        if(item.status == "active")
+                                            button(
+                                                type="button"
+                                                class="badge bg-success"
+                                                data-status = item.status 
+                                                data-id = item.id
+                                                button-change-status
+                                            ) Hoạt động
+                                        else
+                                            button(
+                                                type="button"
+                                                class="badge bg-danger"
+                                                data-status = item.status 
+                                                data-id = item.id
+                                                button-change-status
+                                            ) Ngưng hoạn động
+                                    else 
+                                        if(item.status == "active")
+                                            button(
+                                                type="button"
+                                            ) Hoạt động
+                                        else
+                                            button(
+                                                type="button"
+                                                class="badge bg-danger"
+                                            ) Ngưng hoạn động
                                 td 
-                                    a(class="btn btn-sm btn-secondary",
-                                        href=`${prefixAdmin}/role/detail/${item.id}`
-                                    ) Chi tiết 
-                                    a(class="btn btn-sm btn-warning",
-                                        href=`${prefixAdmin}/accounts/edit/${item.id}`
-                                    ) Sửa 
-                                    a(class="btn btn-sm btn-danger",
-                                        button-delete 
-                                        data-id = item.id
-                                    ) Xóa
+                                    if(role.permissions.includes("accounts_view"))
+                                        a(class="btn btn-sm btn-secondary",
+                                            href=`${prefixAdmin}/role/detail/${item.id}`
+                                        ) Chi tiết 
+                                    if(role.permissions.includes("accounts_edit"))
+                                        a(class="btn btn-sm btn-warning",
+                                            href=`${prefixAdmin}/accounts/edit/${item.id}`
+                                        ) Sửa 
+                                    if(role.permissions.includes("accounts_delete"))
+                                        a(class="btn btn-sm btn-danger",
+                                            button-delete 
+                                            data-id = item.id
+                                        ) Xóa
                     else 
                         th Không có bản ghi nào
                                 

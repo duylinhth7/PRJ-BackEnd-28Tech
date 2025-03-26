@@ -21,59 +21,68 @@ module.exports.index = async (req, res) => {
 
 // [GET] admin/accounts/create
 module.exports.create = async (req, res) => {
-    const role = await roleModel.find({ deleted: false })
+    const roles = await roleModel.find({ deleted: false })
     res.render("admin/pages/accounts/create", {
         title: "Trang tạo mới tài khoản",
-        role: role
+        roles: roles
     })
 }
 
 // [POST] admin/accounts/create
 module.exports.createPost = async (req, res) => {
-    req.body.token = genarateToken(20);
-    req.body.passWord = md5(req.body.passWord)
-    const check = await Accounts.findOne({
-        deleted: false,
-        email: req.body.email
-    });
-    if (check) {
-        res.redirect("back")
+    if (res.locals.role.permissions.includes("accounts_add")) {
+        req.body.token = genarateToken(20);
+        req.body.passWord = md5(req.body.passWord)
+        const check = await Accounts.findOne({
+            deleted: false,
+            email: req.body.email
+        });
+        if (check) {
+            res.redirect("back")
+        } else {
+            const newAccount = new Accounts(req.body);
+            await newAccount.save();
+            res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+        }
     } else {
-        const newAccount = new Accounts(req.body);
-        await newAccount.save();
-        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+        return res.send("403!")
     }
 }
 
 //[GET] admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
     const id = req.params.id;
-    const role = await roleModel.find({ deleted: false })
+    const roles = await roleModel.find({ deleted: false })
     const record = await Accounts.findOne({ deleted: false, _id: id })
     res.render("admin/pages/accounts/edit", {
         title: "Trang chỉnh sửa tài khoản",
         record: record,
-        role: role
+        roles: roles
     })
 }
 //[PATCH] admin/accounts/edit/:id
 module.exports.editPatch = async (req, res) => {
-    const id = req.params.id;
-    const check = await Accounts.findOne({
-         _id: { $ne: id },
-        email: req.body.email,
-        deleted: false
-    })
-    if (check) {
-        res.redirect("back")
-    } else {
-        if (req.body.passWord) {
-            req.body.passWord = md5(req.body.passWord)
+    if (res.locals.role.permissions.includes("accounts_edit")) {
+        const id = req.params.id;
+        const check = await Accounts.findOne({
+            _id: { $ne: id },
+            email: req.body.email,
+            deleted: false
+        })
+        if (check) {
+            res.redirect("back")
         } else {
-            delete req.body.passWord
+            if (req.body.passWord) {
+                req.body.passWord = md5(req.body.passWord)
+            } else {
+                delete req.body.passWord
+            }
         }
+        await Accounts.updateOne({ _id: id }, req.body);
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+    } else{
+        res.send("403!")
     }
-    await Accounts.updateOne({_id: id}, req.body);
-    res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+
 
 }

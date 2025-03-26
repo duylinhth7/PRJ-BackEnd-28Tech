@@ -18,11 +18,11 @@ block main
                 name="fullName"
                 required
             )
-        if(role)
+        if(roles)
             div(class="form-group")
                 label(for="role_id") Chọn phân quyền
                 select(name="role_id" class="form-control" id="role_id")
-                    each item in role 
+                    each item in roles
                         option(value=item.id) #{item.title}
         div(class="form-group")
             label(for="email") Email

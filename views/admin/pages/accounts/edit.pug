@@ -23,7 +23,7 @@ block main
             div(class="form-group")
                 label(for="role_id") Chọn phân quyền
                 select(name="role_id" class="form-control" id="role_id")
-                    each item in role 
+                    each item in roles
                         option(value=item.id 
                             selected = (item.id == record.role_id)
                         ) #{item.title}
