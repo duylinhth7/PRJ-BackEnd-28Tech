@@ -91,3 +91,36 @@ ul{
 .sub-menu ul li:hover > ul {
     display: block !important;
 }
+
+/* DETAIL PRODUCT */
+.detail_image{
+    width:80%;
+    height: auto;
+    margin-bottom: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+.detail_image img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.detail_info .name{
+    font-size: 25px
+}
+.detail_info .price{
+    font-size: 23px;
+    color: red;
+    font-weight: 600;
+}
+.detail_info .discount{
+    font-size: 18px;
+    color: green;
+    font-weight: 700;
+}
+.detail_info span{
+    background-color: orange;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}

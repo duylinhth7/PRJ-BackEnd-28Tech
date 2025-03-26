@@ -2,25 +2,36 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 block main
     h1 Trang chi tiết sản phẩm
-    div(class="container")
-        if(product.title)
-            div(class="mb-4") Tiêu đề: 
-                b #{product.title}
-        if(product.description)
-            div(class="mb-4") Mô tả: 
-                p #{product.description}
-        if(product.discountPercentage)
-            div(class="mb-4") Giảm giá : 
-                b #{product.discountPercentage}
-        if(product.stock)
-            div(class="mb-4") Số lượng : 
-                b #{product.stock}
-        if(product.thumbnail)
-            div(class="mb-4") Ảnh sản phẩm:  
-                img(
-                    src=product.thumbnail
-                    style="width:100px"
-                )
-        if(product.position)
-            div(class="mb-4") Vị trí: 
-                b #{product.position}
+    .container 
+        .row
+            .col-4 
+                .detail_image 
+                    img(src=product.thumbnail)
+            .col-4
+                .detail_info 
+                    .name #{product.title}
+                    .category Danh mục 
+                        a(href=`/products/${product.category.slug}`) #{product.category.title}
+                    .price #{product.price}$
+                    .discount.mb-4 #{product.discountPercentage}%
+                    .stock.mb-4 Còn lại <span>#{product.stock}</span> sản phẩm
+                    form(
+                        action="/"
+                        method="POST"
+                    )                            
+                        input(
+                            type="number"
+                            class="form-control mb-4"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max=product.stock
+                            )
+                        button(
+                            type="submit"
+                            class="btn btn-primary"
+                        ) Thêm vào giỏ hàng
+            .col-12 
+                +box-head("Giới thiệu sản phẩm")
+                .detait_description !{product.description}
+                        
