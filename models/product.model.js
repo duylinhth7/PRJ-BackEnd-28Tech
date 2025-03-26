@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema({
     product_category_id: String,
     description: String,
     price: Number,
+    featured: String,
     discountPercentage: Number,
     createdBy: {
         account_id: String,

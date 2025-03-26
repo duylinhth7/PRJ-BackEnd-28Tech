@@ -37,10 +37,10 @@
     max-width: 150px;
     border: 1px solid #ddd; 
     margin: 10px;
-    max-width: 300px;
     border-radius: 10px;
     overflow: hidden;
-    min-height: 280px;
+    height: 100%;
+    margin: 10px 0 !important;
 }
 .product-items .inner-info{
     text-align: center;

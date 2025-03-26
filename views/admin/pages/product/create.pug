@@ -10,7 +10,7 @@ block main
         method='POST'
         enctype="multipart/form-data"
     )
-        div(class="form-group")
+        div(class="form-group mb-4")
             label(for="title") Tiêu đề
             input(
                 type="text"
@@ -19,12 +19,43 @@ block main
                 name="title"
                 required
             )
-        div(class="form-group")
+        div(class="form-group mb-4")
             label(for="product_category_id") Chọn danh mục sản phẩm
             select(name="product_category_id" class="form-control" id="product_category_id")
                 option(value=" ") --Chọn danh mục sản phẩm--
                 if(record)
                     +select-tree(record)
+
+
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="featured"
+                name="featured"
+                value="1"
+            )
+            label(
+                for="statusActive"
+                class="form-check-label"
+            ) Nổi bật
+            
+            
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="featured"
+                name="featured"
+                value="0"
+                checked 
+            )
+            label(
+                for="statusActive"
+                class="form-check-label"
+            ) Không nổi bật
+
+
         div(class="form-group")
             label(for="description") Mô tả
             textarea(
@@ -33,6 +64,7 @@ block main
                 id="description"
                 name="description"
             )
+
 
         div(class="form-group")
             label(for="thumbnail") Đường dẫn ảnh

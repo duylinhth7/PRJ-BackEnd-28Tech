@@ -4,6 +4,6 @@ const categoryMiddlware = require("../../middlewares/client/productCategory.midd
 module.exports = (app) => {
     app.use(categoryMiddlware.category);
     app.use("/", homeRouter);
-    app.use("/", productRouter);
+    app.use("/products", productRouter);
 
 };

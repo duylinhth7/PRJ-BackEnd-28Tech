@@ -1,3 +1,12 @@
 extends ../../layouts/default.pug
+include ../../mixins/product-grid.pug
+include ../../mixins/box-head.pug
 block main
-  h1 Đây là trang chủ
+  h1.mb-4 Đây là trang chủ
+  .container 
+    .row 
+      +box-head("Sản phẩm nổi bật")
+      +product-grid(productFeatured)
+    .row 
+      +box-head("Sản phẩm mới nhất")
+      +product-grid(productNew)

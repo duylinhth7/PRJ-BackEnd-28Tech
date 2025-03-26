@@ -1,0 +1,12 @@
+mixin product-grid(listProduct)
+    for item in listProduct
+        .col-4.mb-4
+            .product-items
+                .inner-image 
+                    img(src=item.thumbnail , alt=item.title)
+                .inner-info
+                    a(
+                    class="name"
+                    href=`products/detail/${item.slug}`
+                    ) #{item.title}
+                    .price Giá: #{item.price} $
