@@ -1,0 +1,9 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-grid.pug
+
+block main 
+    +box-head("Kết quả tìm kiếm")
+    .container 
+        .row 
+            +product-grid(products)

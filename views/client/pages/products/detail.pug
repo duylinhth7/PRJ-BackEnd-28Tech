@@ -16,7 +16,7 @@ block main
                     .discount.mb-4 #{product.discountPercentage}%
                     .stock.mb-4 Còn lại <span>#{product.stock}</span> sản phẩm
                     form(
-                        action="/"
+                        action=`/cart/${product.id}`
                         method="POST"
                     )                            
                         input(

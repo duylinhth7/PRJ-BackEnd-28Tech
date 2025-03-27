@@ -15,6 +15,7 @@
 .header .inner-menu ul {
     display: flex;
     list-style: none;
+    justify-content: space-between;
 }
 .header .inner-menu ul li a {
     text-decoration: none;

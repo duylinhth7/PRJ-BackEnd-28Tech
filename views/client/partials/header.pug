@@ -15,3 +15,12 @@ header.header
                             - const pathProduct = "/products"
                             a(href=pathProduct) Sản phẩm
                             +sub-menu(layoutProductCategory, pathProduct)
+                        li
+                            form(method="GET" action="/search")
+                                input(type="text" 
+                                    name="keyword"
+                                    placeholder ="Nhập từ khóa..."
+                                )
+                                button(class="btn btn-success"
+                                    type="submit"
+                                ) Tìm kiếm  
