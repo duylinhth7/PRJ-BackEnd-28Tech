@@ -15,6 +15,8 @@ header.header
                             - const pathProduct = "/products"
                             a(href=pathProduct) Sản phẩm
                             +sub-menu(layoutProductCategory, pathProduct)
+                        li 
+                            a(href="/cart") Giỏ hàng
                         li
                             form(method="GET" action="/search")
                                 input(type="text" 
@@ -24,3 +26,4 @@ header.header
                                 button(class="btn btn-success"
                                     type="submit"
                                 ) Tìm kiếm  
+

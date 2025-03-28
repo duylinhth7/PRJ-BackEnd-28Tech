@@ -1,0 +1,46 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main 
+    +box-head("Giỏ hàng")
+    .container 
+        table(class=" table table-striped ")
+            thead 
+                tr 
+                    th STT
+                    th Hình ảnh
+                    th Tên sản phẩm
+                    th Giá
+                    th Số lượng      
+                    th Tổng giá
+                    th Hành động
+            tbody 
+                each item, index in cart.products
+                    tr 
+                        td #{index+1}
+                        td
+                            img(src=item.productInfo.thumbnail alt=item.productInfo.title width="100px")
+                        td 
+                            a(href=`/products/detail/${item.productInfo.slug}`) #{item.productInfo.title} 
+                        td
+                            div #{item.productInfo.price} $
+                        td 
+                            input(
+                                value=item.quantity
+                                product-id = item.product_id
+                                name="quantity"
+                                type="number"
+                                min=1
+                            )
+                        td 
+                            div #{item.productInfo.price * item.quantity} $
+                        td
+                            a(
+                                class="btn btn-danger"
+                                href=`/cart/delete/${item.product_id}`
+                            ) Xóa
+        .row 
+            .col-6
+                h4 Tổng giá tiền 
+            .col-4 
+                h4 #{totalPrice}$
+    script(src="/client/js/cart.js") 
