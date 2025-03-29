@@ -39,8 +39,12 @@ block main
                                 href=`/cart/delete/${item.product_id}`
                             ) Xóa
         .row 
-            .col-6
-                h4 Tổng giá tiền 
+            .col-4
+                
             .col-4 
-                h4 #{totalPrice}$
+                h4 Tổng giá tiền #{totalPrice}$
+            .col-4 
+                a(href="/checkout"
+                    class="btn btn-primary"
+                    ) Thanh toán
     script(src="/client/js/cart.js") 

@@ -1,0 +1,82 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main
+    .container 
+        +box-head("Trang thanh toán")
+
+        table(class=" table table-striped ")
+            thead 
+                tr 
+                    th STT
+                    th Hình ảnh
+                    th Tên sản phẩm
+                    th Giá
+                    th Số lượng      
+                    th Tổng giá
+            tbody 
+                each item, index in cart.products
+                    tr 
+                        td #{index+1}
+                        td
+                            img(src=item.productInfo.thumbnail alt=item.productInfo.title width="100px")
+                        td 
+                            div #{item.productInfo.title} 
+                        td
+                            div #{item.productInfo.price} $
+                        td 
+                            div #{item.quantity}
+                        td 
+                            div #{item.productInfo.price * item.quantity} $ 
+        .row 
+            .col-6  
+            .col-4
+                h4 Tổng giá tiền: #{totalPrice}$
+        if(cart.products.length > 0)
+            form(
+                class="form-control"
+                id="form-checkout"
+                action="/checkout/order"
+                method="POST"
+            )
+                div(
+                    class="form-group mb-4"
+                )
+                    label(id="fullName") Họ tên:
+                    input(
+                        class="form-control"
+                        type="text"
+                        name="fullName"
+                        id="fullName"
+                        required
+                    ) 
+                div(
+                    class="form-group mb-4"
+                )
+                    label(for="address") Địa chỉ:
+                    input(
+                        class="form-control"
+                        type="text"
+                        name="address"
+                        id="address"
+                        required
+                    ) 
+                div(
+                    class="form-group mb-4"
+                )
+                    label(for="phone") Số điện thoại:
+                    input(
+                        class="form-control"
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        required
+                    )
+                div(
+                    class="form-group mb-4"
+                )
+                    button(
+                        class="form-control btn btn-success"
+                        type="submit"
+                    ) Đặt hàng
+        else 
+            h2 Không có sản phẩm nào trong giỏ hàng
