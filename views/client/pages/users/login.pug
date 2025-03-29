@@ -1,0 +1,40 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main 
+    .container 
+        +box-head("Trang đăng nhập")
+        form(
+            class="form-control mb-4"
+            id="form-login"
+            action="/users/login"
+            method="POST"
+        )
+            div(
+                class="form-group mb-4"
+            )
+                label(for="email") Email:
+                input(
+                    class="form-control"
+                    type="text"
+                    name="email"
+                    id="email"
+                    required
+                )
+            div(
+                class="form-group mb-4"
+            )
+                label(for="password") Mật khẩu:
+                input(
+                    class="form-control"
+                    type="password"
+                    name="password"
+                    id="password"
+                    required
+                )
+            div(
+                class="form-group mb-4"
+            )
+                button(
+                    class="form-control btn btn-success"
+                    type="submit"
+                ) Đăng Nhập

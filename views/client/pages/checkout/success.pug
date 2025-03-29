@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main 
+    .container 
+        if(order)
+            +box-head("Đặt hàng thành công")
+            .row
+                div(class="alert alert-success mb-4 col-12") Bạn đã đặt hàng thành công, chúng tôi sẽ xác nhận và gửi đến cho đơn vị vận chuyển trong thời gian sớm nhất.
+                .col-7.text-center 
+                    h3(class="mb-4") Thông tin đơn hàng
+                    table(class=" table table-striped ")
+                        thead 
+                            tr 
+                                th STT
+                                th Hình ảnh
+                                th Tên sản phẩm
+                                th Giá
+                                th Số lượng      
+                                th Tổng giá
+                        tbody 
+                            each item, index in productsOrder
+                                tr 
+                                    td #{index+1}
+                                    td
+                                        img(src=item.thumbnail alt=item.title width="100px")
+                                    td 
+                                        div #{item.title} 
+                                    td
+                                        div #{item.price} $
+                                    td 
+                                        div #{item.quantity}
+                                    td 
+                                        div #{item.price * item.quantity} $
+                .col-5.text-center 
+                    h3(class="mb-4") Thông tin khách hàng 
+                    div(class="mb-4")
+                        b Họ tên: 
+                        <p>#{order.userInfo.fullName}<p/>
+                    div(class="mb-4")
+                        b Số điên thoại: 
+                        <p>#{order.userInfo.phone}<p/>
+                    div(class="mb-4")
+                        b Địa chỉ: 
+                        <p>#{order.userInfo.address}<p/>

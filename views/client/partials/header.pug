@@ -17,6 +17,14 @@ header.header
                             +sub-menu(layoutProductCategory, pathProduct)
                         li 
                             a(href="/cart") Giỏ hàng
+                        if(users)
+                            li
+                                a(href="/users/logout") Đăng xuất
+                        else
+                            li
+                                a(href="/users/register") Đăng ký
+                            li  
+                                a(href="/users/login") Đăng nhập
                         li
                             form(method="GET" action="/search")
                                 input(type="text" 
@@ -25,5 +33,5 @@ header.header
                                 )
                                 button(class="btn btn-success"
                                     type="submit"
-                                ) Tìm kiếm  
+                                ) Tìm kiếm
 

@@ -71,10 +71,33 @@ module.exports.order = async (req, res) => {
     }, {
         products: []
     });
-    res.redirect("/checkout/order/success")
+    res.redirect(`/checkout/success/${order.id}`)
 }
 
 //[GET] /checkout/order/success
-module.exports.orderSuccess = async (req, res) => {
-    res.send("Thành công")
+module.exports.success = async (req, res) => {
+    const orderId = req.params.id;
+    const order = await Orders.findOne({
+        _id: orderId,
+        deleted: false
+    });
+    const productsOrder = [];
+    for (const item of order.products) {
+        const product = await Product.findOne({
+            _id: item.product_id,
+            deleted: false
+        }).select("title price thumbnail")
+        const productInfo = {
+            title: product.title,
+            price: item.price,
+            thumbnail: product.thumbnail,
+            quantity: item.quantity
+        }
+        productsOrder.push(productInfo)
+    }
+    res.render("client/pages/checkout/success", {
+        pageTitle: "Đặt hàng thành công",
+        order: order,
+        productsOrder: productsOrder
+    })
 }
