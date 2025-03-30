@@ -1,6 +1,6 @@
 const roleModel = require("../../models/role.model");
 const Accounts = require("../../models/accounts.model");
-const genarateToken = require("../../helpers/genarate")
+const genarate = require("../../helpers/genarate")
 const systemConfig = require("../../config/system")
 const md5 = require('md5');
 
@@ -31,7 +31,7 @@ module.exports.create = async (req, res) => {
 // [POST] admin/accounts/create
 module.exports.createPost = async (req, res) => {
     if (res.locals.role.permissions.includes("accounts_add")) {
-        req.body.token = genarateToken(20);
+        req.body.token = genarate.genarateToken(20);
         req.body.passWord = md5(req.body.passWord)
         const check = await Accounts.findOne({
             deleted: false,

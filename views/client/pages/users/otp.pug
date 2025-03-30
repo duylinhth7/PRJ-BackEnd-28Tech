@@ -1,0 +1,45 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main 
+    .container 
+        +box-head("Trang xác thực mã OTP")
+        .row.justify-content-center
+            .col-6
+                form(
+                    class="mb-4"
+                    id="form-reset-password"
+                    action="/users/password/otp"
+                    method="POST"
+                )
+                    div(
+                        class="form-group mb-4"
+                    )
+                        label(for="email") Email:
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="email"
+                            id="email"
+                            value=email
+                            required
+                            readonly
+                        )
+                    div(
+                        class="form-group mb-4"
+                    )
+                        label(for="otp") Mã OTP:
+                        input(
+                            class="form-control"
+                            type="otp"
+                            name="otp"
+                            id="otp"
+                            required
+                        )
+                    div(
+                        class="form-group mb-4"
+                    )
+                        button(
+                            class="form-control btn btn-primary"
+                            type="submit"
+                        ) Xác nhận
+                

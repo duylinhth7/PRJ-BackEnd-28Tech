@@ -13,7 +13,7 @@ const usersSchema = new mongoose.Schema({
     },
     tokenUser: {
         type: String,
-        default: genarate(20)
+        default: genarate.genarateToken(20)
     },
     deletedAt: Date,
 
