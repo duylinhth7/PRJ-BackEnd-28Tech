@@ -8,7 +8,7 @@ block main
         .card-body 
             .row 
                 .col-3 
-                    if(role.permissions.includes("accounts_add"))
+                    if(role.permissions.includes("accounts_create"))
                         a(  href=`${prefixAdmin}/accounts/create`
                             class="btn btn-outline-success"
                         ) + Thêm mới

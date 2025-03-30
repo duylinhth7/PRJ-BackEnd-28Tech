@@ -43,7 +43,7 @@ block main
                                     )
                                 button(type='submit' class="btn btn-primary") Áp dụng
                 .col-3 
-                    if(role.permissions.includes("product_add"))
+                    if(role.permissions.includes("product_create"))
                         a(  href=`${prefixAdmin}/product/create`
                             class="btn btn-outline-success"
                         ) + Thêm sản phẩm mới
