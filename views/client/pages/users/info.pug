@@ -1,0 +1,12 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main 
+    .container
+        +box-head("Trang thông tin tài khoản")
+        .mb-4
+        .info 
+            p.mb-4 Họ tên: <b>#{users.fullName}</b>
+
+            p.mb-4 Email: <b>#{users.email}</b>
+
+            p.mb-4 Số điện thoại: <b>#{users.phone}</b>

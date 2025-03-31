@@ -2,33 +2,37 @@ const Cart = require("../../models/cart.model")
 const Product = require("../../models/product.model")
 // [GET] /cart
 module.exports.index = async (req, res) => {
-    const cartId = req.cookies.cartId;
-    const cart = await Cart.findOne({
-        _id: cartId
-    });
-    for (const item of cart.products) {
-        const product = await Product.findOne({
-            _id: item.product_id,
-            deleted: false,
-            status: "active"
-        }).select("thumbnail title price discountPercentage slug");
-        item.product_category_id = product.product_category_id
-        item.productInfo = {
-            thumbnail: product.thumbnail,
-            title: product.title,
-            price: parseInt(product.price),
-            discountPercentage: product.discountPercentage,
-            slug: product.slug
+    try {
+        const cartId = req.cookies.cartId;
+        const cart = await Cart.findOne({
+            _id: cartId
+        });
+        for (const item of cart.products) {
+            const product = await Product.findOne({
+                _id: item.product_id,
+                deleted: false,
+                status: "active"
+            }).select("thumbnail title price discountPercentage slug");
+            item.product_category_id = product.product_category_id
+            item.productInfo = {
+                thumbnail: product.thumbnail,
+                title: product.title,
+                price: parseInt(product.price),
+                discountPercentage: product.discountPercentage,
+                slug: product.slug
+            }
         }
-    }   
-    const totalPrice = cart.products.reduce((sum, item) => {
-        return (sum + item.quantity * item.productInfo.price)
-    }, 0)
-    res.render("client/pages/cart/index", {
-        pageTitle: "Giỏ hàng",
-        cart: cart,
-        totalPrice: totalPrice
-    })
+        const totalPrice = cart.products.reduce((sum, item) => {
+            return (sum + item.quantity * item.productInfo.price)
+        }, 0)
+        res.render("client/pages/cart/index", {
+            pageTitle: "Giỏ hàng",
+            cart: cart,
+            totalPrice: totalPrice
+        })
+    } catch (error) {
+        res.redirect("back")
+    }
 }
 // [POST] /cart/:id
 module.exports.cartPost = async (req, res) => {
@@ -60,8 +64,8 @@ module.exports.delete = async (req, res) => {
     const cartId = req.cookies.cartId;
     const product_id = req.params.id;
     await Cart.updateOne(
-        { '_id': cartId }, 
-        { $pull: { products: { product_id: product_id    } } }
+        { '_id': cartId },
+        { $pull: { products: { product_id: product_id } } }
     );
     res.redirect("back");
 }

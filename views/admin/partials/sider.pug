@@ -14,5 +14,9 @@
         if(role.permissions.includes("role_edit"))
             li 
                 a(href=`${prefixAdmin}/role/permissions`) Phân quyền
-        li 
-            a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+        if(role.permissions.includes("accounts_view"))
+            li 
+                a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+        if(role.permissions.includes("orders_view"))
+            li
+                a(href=`${prefixAdmin}/orders`) Danh sách đơn hàng

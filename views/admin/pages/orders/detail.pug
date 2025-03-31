@@ -1,0 +1,53 @@
+extends ../../layouts/default.pug
+include ../../mixins/format-date.pug
+
+block main 
+    h2.mb-4 Trang chi tiết đơn hàng
+    .row 
+        .col-6 
+            h5 Thông tin chi tiết đơn hàng
+            p Mã Đơn hàng: <b>#{orders.id}</b>
+            p Thời gian đặt hàng: <b>
+            +formatDate(orders.createdAt)
+            </b>
+            p Trạng thái: 
+                b #{orders.status == "pending" ? "Chờ xác nhận" : "Đã xác nhận"}
+            p Thông tin nhận hàng:
+                ul
+                    li Họ tên: 
+                        b #{orders.userInfo.fullName}
+                    li Số điện thoại: 
+                        b #{orders.userInfo.phone}
+                    li Địa chỉ: 
+                        b #{orders.userInfo.address}
+        .col-6.mb-4
+            if(infoUser)
+                    h5 Thông tin tài khoản người đặt hàng
+                    p Họ tên: <b>#{infoUser.fullName} </b>
+                    p Số điện thoại: <b>#{infoUser.phone} </b>
+                    p Email: <b>#{infoUser.email} </b>
+            else
+                h5 Người đặt hàng chưa đăng ký tài khoản
+            
+        .col-12
+            h5 Danh sách các sản phẩm trong đơn hàng:
+            table.table.table-striped
+                thead
+                    tr 
+                        th STT
+                        th Tên sản phẩm 
+                        th Ảnh 
+                        th Giá
+                        th Số lượng
+                        th Thành tiền
+                    tbody 
+                        each item, index in productInfo 
+                            tr 
+                                td #{index+1}
+                                td #{item.title}
+                                td 
+                                    img(src=item.thumbnail height="100px")
+                                td #{item.price}$
+                                td #{item.quantity}
+                                td #{item.price * item.quantity}$
+            h6.mb-4 Tổng giá tiền của đơn hàng: <b>#{orders.totalPrice}$</b>

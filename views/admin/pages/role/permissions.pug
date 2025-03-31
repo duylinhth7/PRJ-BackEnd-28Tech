@@ -173,6 +173,42 @@ block main
                             type="checkbox"
                         )
 
+            //- Danh sách đơn hàng
+            tr 
+                td(col-span="4" class="text-center")
+                    b Danh sách đơn hàng
+            tr(data-name="orders_view")
+                td(class="text-center") Xem
+                each item in record 
+                    td(class="text-center")
+                        input(
+                            type="checkbox"
+                        )
+
+            tr(data-name="orders_create")
+                td(class="text-center") Thêm
+                each item in record 
+                    td(class="text-center")
+                        input(
+                            type="checkbox"
+                        )
+
+            tr(data-name="orders_edit")
+                td(class="text-center") Sửa
+                each item in record 
+                    td(class="text-center")
+                        input(
+                            type="checkbox"
+                        )
+
+            tr(data-name="orders_delete")
+                td(class="text-center") Xóa
+                each item in record 
+                    td(class="text-center")
+                        input(
+                            type="checkbox"
+                        )
+
     form(action=`${prefixAdmin}/role/permissions/edit?_method=PATCH`
         method = "POST"
         form-patch-permissions

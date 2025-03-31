@@ -1,0 +1,52 @@
+extends ../../layouts/default.pug
+include ../../mixins/format-date.pug
+
+block main 
+    if(orders)
+        table(class="table table-striped")
+            thead 
+                tr 
+                    th STT
+                    th ID đơn hàng
+                    th Ngày đặt 
+                    th Tổng tiền 
+                    th Trạng thái 
+                    th Hành động
+            tbody 
+                each item, index in orders 
+                    tr
+                        td #{index+1}
+                        td
+                            a(href=`${prefixAdmin}/orders/detail/${item.id}`) #{item.id}
+                        td 
+                            +formatDate(item.createdAt)
+                        td Tổng tiền: #{item.totalPrice} $
+                        td 
+                            if(item.status === "pending")
+                                button(
+                                        type="button"
+                                        data-id = item.id 
+                                        button-change-status
+                                        data-status = item.status
+                                        class="badge bg-danger"
+                                        ) Chờ xác nhận
+                            else 
+                                button(
+                                        type="button"
+                                        data-id = item.id 
+                                        button-change-status
+                                        data-status = item.status
+                                        class="badge bg-success"
+                                        ) Đã xác nhận
+                        td 
+                            button(
+                                type="button"
+                                class="btn btn-primary"
+                            ) Xóa đơn hàng
+        form(
+            action=""
+            path=`${prefixAdmin}/orders/changeStatus`
+            form-change-status
+            method="POST"
+        )
+    script(src="/admin/js/orders.js") 

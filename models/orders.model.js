@@ -22,6 +22,10 @@ const ordersSchema = new mongoose.Schema({
         default: false
     },
     totalPrice: Number,
+    status : {
+        type: String,
+        default: "pending"
+    },
     deletedAt: Date,
 
 }, { timestamps: true });

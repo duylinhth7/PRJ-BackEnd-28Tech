@@ -19,6 +19,8 @@ header.header
                             a(href="/cart") Giỏ hàng
                         if(users)
                             li
+                                a(href="/users/info") #{users.fullName}
+                            li
                                 a(href="/users/logout") Đăng xuất
                         else
                             li

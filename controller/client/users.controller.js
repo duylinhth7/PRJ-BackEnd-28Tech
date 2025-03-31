@@ -4,6 +4,7 @@ const Users = require("../../models/users.model");
 const genarate = require("../../helpers/genarate");
 const ForgetPassword = require("../../models/forget-password.model");
 const sendMailHelper = require("../../helpers/sendMail");
+const Cart = require("../../models/cart.model");
 // [GET] /users/register
 module.exports.register = async (req, res) => {
     res.render("client/pages/users/register", {
@@ -60,6 +61,8 @@ module.exports.loginPost = async (req, res) => {
         res.redirect("back");
         return;
     }
+    
+    await Cart.updateOne({_id: req.cookies.cartId}, {user_id: checkLogin.id})
     res.cookie("tokenUser", checkLogin.tokenUser);
     res.redirect("/");
 
@@ -142,4 +145,11 @@ module.exports.resetPasswordPost = async (req, res) => {
     const newPassword = md5(req.body.password)
     await Users.updateOne({tokenUser: tokenUser}, {password: newPassword})
     res.redirect("/");
+}
+
+//[GET] //users/info
+module.exports.info = async (req, res) => {
+    res.render("client/pages/users/info", {
+        pageTitle: "Thông tin tài khoản"
+    })
 }
