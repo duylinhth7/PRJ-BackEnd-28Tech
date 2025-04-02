@@ -11,8 +11,18 @@ const route = require("./routes/client/index.route");
 database.connect();
 const app = express();
 const moment = require("moment");
+const { Server } = require("socket.io");
+const http = require("http");
 const systemConfig = require("./config/system");
 app.use(bodyParser.urlencoded({ extended: false }))
+
+//soket.io
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;   
+// end soketio
+
+
 app.use(methodOverride('_method'))
 
 const port = process.env.PORT;
@@ -37,6 +47,6 @@ routeAdmin(app);
 route(app);
 //ok
     
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

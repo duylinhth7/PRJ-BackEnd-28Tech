@@ -1,0 +1,28 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main 
+    .container 
+        +box-head("Chat")
+        .row 
+            .col-8.my-5
+                .chat 
+                    div(class="inner-body" my-id=users.id)
+                        each chat in chats
+                            div(class=(chat.user_id == users.id ? "inner-send" : "inner-comming"))
+                                if(chat.user_id != users.id)
+                                    .inner-name #{chat.fullName}
+                                .inner-content
+                                    | #{chat.content}
+                    .inner-foot
+                        form(
+                            class="inner-form"
+                            action = ""
+                        )
+                            input(type="text"
+                                name="content"
+                                placeholder="Nhập tin nhắn..." 
+                            )
+                            button(
+                                type="submit"
+                                class="fa-solid fa-paper-plane"
+                            ) 

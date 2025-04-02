@@ -125,3 +125,63 @@ ul{
     padding: 5px;
     border-radius: 5px;
 }
+/* END */
+
+/* Phần chat */
+.chat {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+.chat .inner-body{
+    display: flex;
+    flex-direction: column;
+    max-height: 450px;
+    overflow-y: auto;
+}
+.chat .inner-name{
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 3px
+}
+.chat .inner-comming{
+    align-self: flex-start;
+    margin: 5px 0px;
+    max-width:40%;
+}
+.chat .inner-comming .inner-content{
+    background-color: #ddd;
+    padding: 0 10px;
+    flex: 1;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+.chat .inner-send {
+    align-self: flex-end;
+    margin: 5px 0px;
+}
+.chat .inner-send .inner-content {
+    background-color: pink;
+    padding: 0 10px;
+    flex: 1;
+    border-radius: 5px;
+    margin-left: 5px;
+
+}
+.inner-foot{
+    margin-top: 20px;
+    text-align: center;
+}
+.inner-foot input{
+    width: 90%;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+.inner-foot button {
+    border: 0;
+    background: rgb(212, 124, 138);
+    border-radius: 15%;
+    padding: 5px;
+    margin-left: 10px;
+}
