@@ -1,0 +1,79 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1(class="mb-4") Cài đặt chung
+
+    form(
+        action=`${prefixAdmin}/settings/general?_method=PATCH`
+        id="form-edit-product"
+        method='POST'
+        enctype="multipart/form-data"
+    )
+        div(class="form- mb-4")
+            label(for="websiteName") Tên Website
+            input(
+                type="text"
+                class="form-control"
+                id="websiteName"
+                name="websiteName"
+                required 
+                value=settings.websiteName
+            )
+
+        div(class="form-group mb-4")
+            label(for="logo") Logo Website
+            input(
+                type="file"
+                class="form-control"
+                id="logo"
+                name="logo"
+                accept="image/*"
+                inputImage
+            )
+            img(
+                src=settings.logo
+                previewImage
+                class="preview-image"
+            )
+            div(
+                class="close-preview"
+            ) x
+
+        div(class="form-group mb-4")
+            label(for="phone") Số điên thoại
+            input(
+                type="text"
+                class="form-control"
+                id="phone"
+                name="phone"
+                required 
+                value=settings.phone
+            ) 
+
+        div(class="form-group mb-4")
+            label(for="email") Email
+            input(
+                type="text"
+                class="form-control"
+                id="email"
+                name="email"
+                value=settings.email
+            )
+
+        div(class="form-group mb-4")
+            label(for="description") Coppyright
+            textarea(
+                type="text"
+                class="form-control tiny-mce"
+                id="coppyright"
+                name="coppyright"
+            ) #{settings.coppyright}
+
+       
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Cập nhật
+            
+            

@@ -2,6 +2,8 @@
     ul.menu
         li 
             a(href=`${prefixAdmin}/dashboard`) Tổng quan
+        li
+            a(href=`${prefixAdmin}/settings/general`) Cài đặt chung
         if(role.permissions.includes("product_view"))
             li
                 a(href=`${prefixAdmin}/product`) Sản phẩm
