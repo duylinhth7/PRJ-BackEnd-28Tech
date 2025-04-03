@@ -13,6 +13,10 @@ block main
                                     .inner-name #{chat.fullName}
                                 .inner-content
                                     | #{chat.content}
+                        .typing-container 
+                            .dot 
+                            .dot 
+                            .dot
                     .inner-foot
                         form(
                             class="inner-form"
@@ -22,7 +26,10 @@ block main
                                 name="content"
                                 placeholder="Nhập tin nhắn..." 
                             )
+                            span(class="btn") <i class="fa-regular fa-face-smile"></i>
                             button(
                                 type="submit"
                                 class="fa-solid fa-paper-plane"
                             ) 
+                div(class="tooltip")
+                    emoji-picker(class="light")

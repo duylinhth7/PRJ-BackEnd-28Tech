@@ -17,6 +17,13 @@ module.exports.index = async (req, res) => {
                 fullName: fullName,
                 content: content
             })
+        });
+        socket.on("CLIENT_SEND_TYPING", (data) => {
+            socket.broadcast.emit("SERVER_RETURN_TYPING", {
+                user_id: user.id,
+                fullName: fullName,
+                typing: data
+            })
         })
     });
     //end seket.io
