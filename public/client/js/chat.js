@@ -1,3 +1,7 @@
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
+
+
+
 // function typing
 var timeOut;
 const typing = () => {
@@ -14,8 +18,15 @@ if (formSend) {
     formSend.addEventListener("submit", (e) => {
         e.preventDefault();
         const content = e.target.elements.content.value;
-        socket.emit("CLIENT_SEND_MESSAGE", content);
-        e.target.elements.content.value = ''
+        const images = upload.cachedFileArray;
+        if (content || images.length > 0) {
+            socket.emit("CLIENT_SEND_MESSAGE", {
+                content: content,
+                images: images
+            });
+            upload.resetPreviewPanel(); // clear all selected images
+            e.target.elements.content.value = ''
+        }
     });
 }
 // END CLIENT SEND MESSAGE
@@ -25,19 +36,33 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const myId = document.querySelector("[my-id]").getAttribute("my-id");
     const body = document.querySelector(".chat .inner-body")
     const div = document.createElement("div");
+    const innerTyping = document.querySelector(".chat .inner-typing");
     let innerFullName = ""
+    let innerContent  = ""
+    let innerImages=""
     if (myId === data.user_id) {
         div.classList.add("inner-send")
     } else {
         innerFullName = `<div class="inner-name">${data.fullName}</div>`
         div.classList.add("inner-comming")
     }
+    if(data.content){
+        innerContent = `<div class="inner-content">${data.content}</div>`
+    }
+    if(data.images.length > 0){
+        innerImages += `<div class="inner-images">`;
+            for (const images of data.images) {
+                innerImages+= `<img src="${images}"/>`
+            }
+        innerImages+= `</div>`;
+    }
 
     div.innerHTML = `
     ${innerFullName}
-    <div class="inner-content">${data.content}</div>
+    ${innerContent}
+    ${innerImages}
     `
-    body.appendChild(div)
+    body.insertBefore(div, innerTyping)
     body.scrollTop = body.scrollHeight
 });
 
@@ -52,7 +77,6 @@ if (bodyChat) {
 //End Scroll chat
 
 //emoji-picke
-import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
 const button = document.querySelector(".chat form span")
 const tooltip = document.querySelector(".tooltip")
 Popper.createPopper(button, tooltip);
@@ -110,5 +134,15 @@ if (innerTyping) {
     })
 }
 // end typing
+
+//upload image
+const upload = new FileUploadWithPreview.FileUploadWithPreview("upload-images", {
+    multiple: true,
+    maxFileCount: 6
+
+});
+
+// end upload Image 
+
 
 

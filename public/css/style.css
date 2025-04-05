@@ -169,6 +169,18 @@ ul{
     margin-left: 5px;
 
 }
+.chat .inner-images{
+
+}
+.chat .inner-images img{
+    width: 80px;
+    height: 80px;
+    padding: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    /* height: 90%; */
+    object-fit: cover;
+}
 .inner-foot{
     margin-top: 20px;
     text-align: center;
@@ -236,6 +248,23 @@ ul{
 }
 
 /* end typing */
+
+/* phần send images */
+.chat .label-container{
+    display: none !important;
+}
+.chat .input-container{
+    display: none !important;
+}
+.chat .image-preview{
+    height: auto !important;
+    padding: 0 !important;
+}
+.chat .image-preview-item{
+    width: 90px !important;
+    object-fit: contain;
+}
+/* end phần imges */
 
 
 
