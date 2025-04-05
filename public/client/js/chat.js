@@ -1,3 +1,13 @@
+// function typing
+var timeOut;
+const typing = () => {
+    socket.emit("CLIENT_SEND_TYPING", "show");
+    clearTimeout(timeOut)
+    timeOut = setTimeout(() => {
+        socket.emit("CLIENT_SEND_TYPING", "hidden")
+    }, 3000)
+}
+// end function typing
 // CLIENT SEND MESSAGE
 const formSend = document.querySelector(".chat .inner-form")
 if (formSend) {
@@ -56,16 +66,49 @@ document.querySelector('emoji-picker')
     .addEventListener('emoji-click', (e) => {
         const icon = e.detail.unicode;
         input.value = input.value + icon
+        typing();
+        input.focus();
+        const end = input.value.length;
+        input.setSelectionRange(end, end);
     });
 //end emoji-picke
 
 // typing
 input.addEventListener("keyup", () => {
-    socket.emit("CLIENT_SEND_TYPING", "show")
+    typing();
 })
-socket.on("SERVER_RETURN_TYPING", (data) => {
-    console.log(data)
-})
+
+const innerTyping = document.querySelector(".inner-typing");
+if (innerTyping) {
+    socket.on("SERVER_RETURN_TYPING", (data) => {
+        if (data.typing == "show") {
+            const checkTyping = innerTyping.querySelector(`[data-id="${data.user_id}"]`)
+            if (!checkTyping) {
+                const boxTyping = document.createElement("div")
+                boxTyping.classList.add("box-typing");
+                boxTyping.setAttribute("data-id", data.user_id)
+                boxTyping.innerHTML = `
+                            <div class="inner-name"> ${data.fullName} </div>
+                            <div class="typing-container">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        `
+                innerTyping.appendChild(boxTyping)
+                const bodyChat = document.querySelector(".chat .inner-body");
+                if (bodyChat) {
+                    bodyChat.scrollTop = bodyChat.scrollHeight;
+                }
+            }
+        } else {
+            const boxTypingRemove = innerTyping.querySelector(`[data-id="${data.user_id}"]`);
+            if (boxTypingRemove) {
+                innerTyping.removeChild(boxTypingRemove)
+            }
+        }
+    })
+}
 // end typing
 
 
