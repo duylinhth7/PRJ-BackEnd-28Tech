@@ -269,3 +269,33 @@ ul{
 
 
 /* end phần chat */
+
+/* Phần friend */
+.block-user{
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 3px 0;
+}
+.block-user .inner-image{
+    /* width: 40%; */
+}
+.block-user .inner-image img{
+    width: 100px;
+    height: auto;
+}
+.block-user .inner-info .inner-name{
+    font-weight: 600;
+}
+.block-user.add [button-request] {
+    display: none;
+}
+.block-user [button-cancel-request] {
+    display: none;
+}
+.block-user.add [button-cancel-request] {
+    display: inline-block;
+}
+/* Hết Phần friend */

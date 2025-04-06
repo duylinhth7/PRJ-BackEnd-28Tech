@@ -1,0 +1,27 @@
+extends ../../layouts/default.pug
+
+block main
+    .container
+        h2.mb-4 Danh sách người dùng
+        .row
+            each item in notFriend 
+                .col-6
+                    .block-user 
+                        .inner-image 
+                            img(
+                                src = item.avatar ? item.avtatar : "/uploads/images.png"
+                            )
+                        .inner-info 
+                            .inner-name #{item.fullName}
+                            .inner-button 
+                                button(
+                                    class="btn btn-success mx-2"
+                                    button-request = item.id
+                                ) Kết bạn
+                                button(
+                                    class="btn btn-secondary"
+                                    button-cancel-request = item.id
+                                ) Hủy
+
+block script 
+    script(src="/client/js/friend.js") 

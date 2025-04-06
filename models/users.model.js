@@ -7,6 +7,7 @@ const usersSchema = new mongoose.Schema({
     email: String,
     phone: String,
     password: String,
+    avatar: String,
     status: {
         type: String,
         default: "active"
@@ -15,6 +16,14 @@ const usersSchema = new mongoose.Schema({
         type: String,
         default: genarate.genarateToken(20)
     },
+    requestFriends: Array,
+    acceptFriends: Array,
+    friendList: [
+        {
+            user_id: String,
+            roomChat_id: String
+        }
+    ],
     deletedAt: Date,
 
 }, { timestamps: true });

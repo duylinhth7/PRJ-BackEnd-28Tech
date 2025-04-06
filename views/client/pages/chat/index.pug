@@ -4,6 +4,23 @@ block main
     .container 
         +box-head("Chat")
         .row 
+            .col-12 
+                a(class="btn btn-primary mx-2"
+                    href="/friend/not-friend"
+                ) Danh sách người dùng
+
+                a(class="btn btn-primary mx-2"
+                    href="/friend/has-friend"
+                ) Danh sách bạn bè
+
+                a(class="btn btn-primary mx-2"
+                    href="/friend/request-friend"
+                ) Lời mời đã gửi
+
+                a(class="btn btn-primary mx-2"
+                    href="/friend/accept-friend"
+                ) Lời mời kết bạn
+        .row 
             .col-8.my-5
                 .chat 
                     div(class="inner-body" my-id=users.id)
@@ -41,3 +58,6 @@ block main
                             ) 
                 div(class="tooltip")
                     emoji-picker(class="light")
+block script
+    script(type="module", src="/client/js/chat.js")
+
