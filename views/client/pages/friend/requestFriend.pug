@@ -2,12 +2,12 @@ extends ../../layouts/default.pug
 
 block main
     .container
-        h2.mb-4 Danh sách người dùng
+        h2.mb-4 Lời mời đã gửi
         include ../../partials/friend.partial.pug
         .row
-            each item in notFriend 
+            each item in requestFriends  
                 .col-6
-                    .block-user 
+                    .block-user.add 
                         .inner-image 
                             img(
                                 src = item.avatar ? item.avtatar : "/uploads/images.png"

@@ -2,10 +2,10 @@ extends ../../layouts/default.pug
 
 block main
     .container
-        h2.mb-4 Danh sách người dùng
+        h2.mb-4 Danh sách bạn bè
         include ../../partials/friend.partial.pug
         .row
-            each item in notFriend 
+            each item in listFriend
                 .col-6
                     .block-user 
                         .inner-image 
@@ -18,7 +18,7 @@ block main
                                 button(
                                     class="btn btn-success mx-2"
                                     button-request = item.id
-                                ) Kết bạn
+                                ) Bạn bè
                                 button(
                                     class="btn btn-secondary"
                                     button-cancel-request = item.id

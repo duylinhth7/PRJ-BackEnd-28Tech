@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+
+block main
+    .container
+        h2.mb-4 Lời mời kết bạn
+        include ../../partials/friend.partial.pug
+        .row
+            each item in acceptFriends  
+                .col-6
+                    .block-user
+                        .inner-image 
+                            img(
+                                src = item.avatar ? item.avtatar : "/uploads/images.png"
+                            )
+                        .inner-info 
+                            .inner-name #{item.fullName}
+                            .inner-button 
+                                button(
+                                    class="btn btn-success mx-2"
+                                    button-accept = item.id
+                                ) Đồng ý
+                                button(
+                                    class="btn btn-secondary"
+                                    button-cancel-accept = item.id
+                                ) Từ chối
+                                span(
+                                    button-has-friend
+                                    class=("btn btn-primary")
+                                ) Đã là bạn bè
+                                span(
+                                    class="btn btn-danger"
+                                    button-has-cancel
+                                ) Đã từ chối
+
+block script 
+    script(src="/client/js/friend.js") 

@@ -28,5 +28,44 @@ module.exports = (res) => {
             }
         })
         //hết phần hủy thêm bạn bè
+
+        //phần chấp nhận kết bạn
+        socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
+            const exitsAccept = await Users.findOne({
+                _id: myId, acceptFriends: userId
+            })
+            if (exitsAccept) {
+                //xóa id của người gửi lời mời ra khỏi acceptFriends của người đồng ý đồng thời thêm id vào friendList
+                await Users.updateOne({ _id: myId },
+                    {
+                        $pull: { acceptFriends: userId },
+                        $addToSet: { friendList: {
+                            user_id: userId,
+                            roomChat_id: ""
+                        } }
+                    }
+                )
+                //xóa id của người đồng ý ra khỏi requestFriends của người gửi lời mời đồng thời thêm id vào friendList
+                await Users.updateOne({ _id: userId },
+                    {
+                        $pull: { requestFriends: myId },
+                        $addToSet: { friendList: {
+                            user_id: myId,
+                            roomChat_id: ""
+                        }}
+                    }
+                )
+            }
+        })
+        // hết phần chấp nhận kết bạn
+
+        //phần từ chối lời mời kết bạn
+        socket.on("CLIENT_CANCEL_ACCEPT", async (userId) => {
+            //xóa id của người gửi lời mời ra khỏi acceptFriend của người reject
+            await Users.updateOne({_id: myId}, {$pull: {acceptFriends: userId}})
+            //xóa id của người reject ra khỏi requestFriend của nguoif gửi lời mời
+            await Users.updateOne({_id: userId}, {$pull: {requestFriends: myId}})
+        })
+        //hết phần từ chối lời mời kết bạn
     });
 }

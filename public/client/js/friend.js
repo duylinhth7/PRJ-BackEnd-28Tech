@@ -23,3 +23,29 @@ if(buttonCancelRequest){
     })
 }
 //Hết Chức năng hủy yêu cầu
+
+//Chức năng đồng ý kết bạn
+const buttonAccept = document.querySelectorAll("[button-accept]");
+if(buttonAccept){
+    buttonAccept.forEach(button => {
+        button.addEventListener("click", () => {
+            const userId = button.getAttribute("button-accept");
+            socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+            button.closest(".block-user").classList.add("has-friend")
+        })
+    })
+}
+// Hết chức năng đồng ý kết 
+
+//Chức năng từ chối kết bạn
+const buttonCancelAccpet = document.querySelectorAll("[button-cancel-accept]");
+if(buttonCancelAccpet){
+    buttonCancelAccpet.forEach(button => {
+        button.addEventListener("click", () => {
+            const userId = button.getAttribute("button-cancel-accept");
+            socket.emit("CLIENT_CANCEL_ACCEPT", userId)
+            button.closest(".block-user").classList.add("has-cancel")
+        })
+    })
+}
+// Hết chức năng từ chối kết bạn

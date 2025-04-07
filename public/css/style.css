@@ -298,4 +298,29 @@ ul{
 .block-user.add [button-cancel-request] {
     display: inline-block;
 }
+
+.block-user [button-has-friend] {
+    display: none;
+}
+.block-user.has-friend [button-has-friend] {
+    display: inline-block;
+}
+.block-user.has-friend [button-accept] {
+    display: none;
+}
+.block-user.has-friend [button-cancel-accept] {
+    display: none;
+}
+.block-user [button-has-cancel] {
+    display: none;
+}
+.block-user.has-cancel [button-has-cancel] {
+    display: inline-block;
+}
+.block-user.has-cancel [button-accept] {
+    display: none;
+}
+.block-user.has-cancel [button-cancel-accept] {
+    display: none;
+}
 /* Hết Phần friend */
