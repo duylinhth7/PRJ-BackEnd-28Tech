@@ -4,10 +4,15 @@ block main
     .container
         h2.mb-4 Lời mời kết bạn
         include ../../partials/friend.partial.pug
-        .row
+        div(
+            class="row box-accept"
+            accept-my-id = users.id
+        )
             each item in acceptFriends  
                 .col-6
-                    .block-user
+                    div(
+                        class="block-user"
+                    )
                         .inner-image 
                             img(
                                 src = item.avatar ? item.avtatar : "/uploads/images.png"

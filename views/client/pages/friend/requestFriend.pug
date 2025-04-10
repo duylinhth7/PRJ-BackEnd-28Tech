@@ -4,10 +4,16 @@ block main
     .container
         h2.mb-4 Lời mời đã gửi
         include ../../partials/friend.partial.pug
-        .row
+        div(
+            class="row box-request"
+            my-id-request=users.id
+        )
             each item in requestFriends  
                 .col-6
-                    .block-user.add 
+                    div(
+                        class="block-user add"
+                        id-user-request=item.id
+                    )
                         .inner-image 
                             img(
                                 src = item.avatar ? item.avtatar : "/uploads/images.png"
