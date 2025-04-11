@@ -13,11 +13,13 @@ module.exports = (res) => {
             if (!exitsFriend) {
                 await Users.updateOne({ _id: myId }, { $push: { requestFriends: userId } })
                 await Users.updateOne({ _id: userId }, { $push: { acceptFriends: myId } });
-                const infoUser = await Users.findOne({_id: myId}).select("fullName avatar _id")
+                const infoUser = await Users.findOne({ _id: myId }).select("fullName avatar _id");
+                const infoUserAccept = await Users.findOne({ _id: userId }).select("acceptFriends");
                 socket.broadcast.emit("SERVER_RETURN_ADD_FRIEND", {
                     userId: userId,
-                    infoUser: infoUser
-            })
+                    infoUser: infoUser,
+                    acceptLength: infoUserAccept.acceptFriends.length
+                })
             }
         });
         //hết phần thêm bạn bè
@@ -29,7 +31,12 @@ module.exports = (res) => {
             });
             if (exitsCancel) {
                 await Users.updateOne({ _id: myId }, { $pull: { requestFriends: userId } })
-                await Users.updateOne({ _id: userId }, { $pull: { acceptFriends: myId } })
+                await Users.updateOne({ _id: userId }, { $pull: { acceptFriends: myId } });
+                const infoUserAccept = await Users.findOne({ _id: userId }).select("acceptFriends");
+                socket.broadcast.emit("SERVER_RETURN_CANCEL_ADD_FRIEND", {
+                    userId: userId,
+                    acceptLength: infoUserAccept.acceptFriends.length
+                })
             }
         })
         //hết phần hủy thêm bạn bè

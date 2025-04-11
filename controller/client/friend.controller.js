@@ -23,7 +23,7 @@ module.exports.notFriend = async (req, res) => {
             { status: "active" }
         ]
     }
-    ).select("fullName avatar id")
+    ).select("fullName avatar id");
     res.render("client/pages/friend/notFriend", {
         pageTitle: "Danh sách người dùng",
         notFriend: userList

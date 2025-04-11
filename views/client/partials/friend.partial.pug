@@ -12,6 +12,7 @@
             href="/friend/request-friend"
         ) Lời mời đã gửi
 
-        a(class="btn btn-primary mx-2"
+        a(class="btn btn-primary mx-2 accept-friends"
             href="/friend/accept-friend"
-        ) Lời mời kết bạn
+        ) Lời mời kết bạn 
+            b(class="badge bg-danger" user-id-accept = users.id) #{users.acceptFriends.length}

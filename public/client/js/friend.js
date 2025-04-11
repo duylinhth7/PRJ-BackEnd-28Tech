@@ -139,5 +139,34 @@ if(boxRequest){
         }
     })
 }
-
 //Hết Xóa realTime khi bị reject;
+
+
+//Hiển thị real time số lượng accept friend
+const innerAccept = document.querySelector(".accept-friends");
+if(innerAccept){
+    socket.on("SERVER_RETURN_ADD_FRIEND", (data) => {
+        const userAccept = innerAccept.querySelector("[user-id-accept]");
+        const idUserAccept = userAccept.getAttribute("user-id-accept");
+        if(idUserAccept === data.userId){
+            let spanChild = document.createElement("b");
+            spanChild.className = ("badge bg-danger");
+            spanChild.setAttribute("user-id-accept", idUserAccept);
+            spanChild.textContent = data.acceptLength
+            innerAccept.replaceChild(spanChild, userAccept);
+        }
+    });
+
+    socket.on("SERVER_RETURN_CANCEL_ADD_FRIEND", (data) => {
+        const userAccept = innerAccept.querySelector("[user-id-accept]");
+        const idUserAccept = userAccept.getAttribute("user-id-accept");
+        if(idUserAccept === data.userId){
+            let spanChild = document.createElement("b");
+            spanChild.className = ("badge bg-danger");
+            spanChild.setAttribute("user-id-accept", idUserAccept);
+            spanChild.textContent = data.acceptLength
+            innerAccept.replaceChild(spanChild, userAccept);
+        }
+    })
+}
+//Hết Hiển thị real time số lượng accept friend
