@@ -1,3 +1,4 @@
+const RoomChat = require("../models/roomChat.model");
 const Users = require("../models/users.model")
 module.exports = (res) => {
     const myId = res.locals.users.id;
@@ -47,14 +48,29 @@ module.exports = (res) => {
                 _id: myId, acceptFriends: userId
             })
             if (exitsAccept) {
-                //xóa id của người gửi lời mời ra khỏi acceptFriends của người đồng ý đồng thời thêm id vào friendList
+                //xóa id của người gửi lời mời ra khỏi acceptFriends của người đồng ý đồng thời thêm id vào friendList;
+                let roomChat = {
+                    typeRoom: "friend",
+                    users: [
+                        {
+                            user_id: myId,
+                            role: "admin"
+                        },
+                        {
+                            user_id: userId,
+                            role: "admin"
+                        }
+                    ]
+                };
+                const newRoomChat = new RoomChat(roomChat);
+                await newRoomChat.save();
                 await Users.updateOne({ _id: myId },
                     {
                         $pull: { acceptFriends: userId },
                         $addToSet: {
                             friendList: {
                                 user_id: userId,
-                                roomChat_id: ""
+                                roomChat_id: newRoomChat.id
                             }
                         }
                     }
@@ -66,7 +82,7 @@ module.exports = (res) => {
                         $addToSet: {
                             friendList: {
                                 user_id: myId,
-                                roomChat_id: ""
+                                roomChat_id: newRoomChat.id
                             }
                         }
                     }

@@ -15,14 +15,14 @@ block main
                         .inner-info 
                             .inner-name #{item.fullName}
                             .inner-button 
-                                button(
-                                    class="btn btn-success mx-2"
+                                span(
+                                    class="badge bg-primary mx-2"
                                     button-request = item.id
                                 ) Bạn bè
-                                button(
-                                    class="btn btn-secondary"
-                                    button-cancel-request = item.id
-                                ) Hủy
+                                a(
+                                    href=`/chat/${item.infoUser.roomChat_id}`
+                                    class="btn btn-success"
+                                ) Nhắn tin
 
 block script 
     script(src="/client/js/friend.js") 

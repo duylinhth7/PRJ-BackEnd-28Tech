@@ -17,8 +17,10 @@ header.header
                             +sub-menu(layoutProductCategory, pathProduct)
                         li 
                             a(href="/cart") Giỏ hàng
+                        //- li
+                        //-     a(href="/chat") Chat
                         li
-                            a(href="/chat") Chat
+                            a(href="/friend/has-friend") Bạn bè
                         if(users)
                             li
                                 a(href="/users/info") #{users.fullName}

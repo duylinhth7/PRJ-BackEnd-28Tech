@@ -82,18 +82,22 @@ module.exports.listFriend = async (req, res) => {
     //end socket
     const myId = res.locals.users.id;
     const myUser = await Users.findOne({ _id: myId });
-    let listFriend = [];
+    let listFriendId = [];
     myUser.friendList.map(item => {
-        listFriend.push(item.user_id);
+        listFriendId.push(item.user_id);
     })
     const userList = await Users.find({
         $and: [
             { _id: { $ne: (myId) } },
-            { _id: { $in: listFriend } },
+            { _id: { $in: listFriendId } },
             { status: "active" }
         ]
     }
     ).select("fullName avatar id");
+    for (const user of userList) {
+        const infoUser = myUser.friendList.find(item => item.user_id === user.id);
+        user.infoUser = infoUser
+    };
     res.render("client/pages/friend/listFriend", {
         pageTitle: "Danh sách bạn bè",
         listFriend: userList
