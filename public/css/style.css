@@ -324,3 +324,25 @@ ul{
     display: none;
 }
 /* Hết Phần friend */
+
+
+/* roomChat */
+.room_chat{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 5px 0px;
+    justify-content: space-evenly;
+}
+.room_chat  .room_chat-image{
+    border-radius: 50px;
+    overflow: hidden;
+}
+.room_chat .room_chat-name{
+    font-weight: 700;
+    font-size: 17px;
+}
+.room_chat img{
+    width: 50px;
+}
+/* Hết roomChat */

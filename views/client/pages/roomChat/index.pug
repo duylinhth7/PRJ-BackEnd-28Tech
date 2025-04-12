@@ -1,0 +1,25 @@
+extends ../../layouts/default.pug
+
+block main 
+    .container
+        h2.mb-4 Danh sách nhóm Chat
+        .row 
+            .col-4.mb-4
+                a(
+                    href="/room-chat/create"
+                    class="btn btn-success"
+                ) Tạo phòng mới
+        .row 
+            if(roomChat.length > 0)
+                each item in roomChat
+                    .room_chat.col-6.mb-4
+                        .room_chat-image 
+                            img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpHOjkQMHdohvbsPtQw-HXp4_r2C0mSDjd8CSSL0xMFSkICyfKfI4mRD0Qk8fN1x6gQfI&usqp=CAU")
+                        .room_chat-info 
+                            .room_chat-name #{item.title}
+                            a(
+                                href=`/chat/${item.id}`
+                                class="btn btn-success"
+                            ) Nhắn tin
+            else 
+                div Chưa có nhóm chat

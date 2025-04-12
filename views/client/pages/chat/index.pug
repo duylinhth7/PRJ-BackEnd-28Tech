@@ -8,6 +8,7 @@ block main
             .col-8.my-5
                 .chat 
                     div(class="inner-body" my-id=users.id)
+                        b #{titleRoomChat.title}
                         each chat in chats
                             div(class=(chat.user_id == users.id ? "inner-send" : "inner-comming"))
                                 if(chat.user_id != users.id)
